@@ -10,7 +10,6 @@ class Config:
         self.AWS_REGION = os.environ["AWS_REGION"]
         self.S3_BUCKET_NAME = os.environ["S3_BUCKET_NAME"]
         self.RENAULT_URL = os.environ["RENAULT_URL"]
-        self.CHEVROLET_URL = os.environ["CHEVOREL_URL"]
 
     def get_s3_config(self):
         s3 = boto3.client(
@@ -26,6 +25,3 @@ class Config:
 
     def get_reanult_url(self):
         return self.RENAULT_URL
-
-    def get_chevrolet_url(self):
-        return self.CHEVROLET_URL

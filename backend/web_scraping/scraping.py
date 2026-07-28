@@ -14,13 +14,10 @@ class Web_Scraping:
         self.p = sync_playwright().start()
         self.config = Config()
         self.renault_url = self.config.get_reanult_url()
-        self.chevrolet_url = self.config.get_chevrolet_url()
 
     def init_page(self):
         if self.brand == "renault":
             url = self.renault_url
-        elif self.brand == "chevrolet":
-            url = self.chevrolet_url
         else:
             raise ValueError(f"Unsupported brand: {self.brand}")
 
