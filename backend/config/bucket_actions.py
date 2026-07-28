@@ -7,11 +7,11 @@ s3 = s3_configs.get_s3_config()
 bucket_name = s3_configs.get_bucket_name()
 
 
-def upload_file(model: str, year: str, name: str, file_path: str, content_type: str) -> str:
+def upload_file(brand:str, model: str, year: str, name: str, file_path: str, content_type: str) -> str:
     if not os.path.isfile(file_path):
         raise FileNotFoundError(f"No existe el archivo: {file_path}")
 
-    key = f"{model}/{year}/{name}.pdf"
+    key = f"{brand}/{model}/{year}/{name}.pdf"
     s3.upload_file(
         Filename=file_path,
         Bucket=bucket_name,
