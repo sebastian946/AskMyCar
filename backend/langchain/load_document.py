@@ -1,0 +1,44 @@
+from config.bucket_actions import get_file_url
+from langchain_community.document_loaders import PyPDFLoader
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+from langchain_chroma import Chroma
+from langchain_ollama import OllamaEmbeddings
+
+class LoadManual:
+    def __init__(self,brand,model,year) -> None:
+        self.brand = brand
+        self.model = model
+        self.year = year
+
+    def get_document(self):
+        file = get_file_url(self.brand,self.model,self.year)
+        return file
+
+    def load_document(self):
+        url = self.get_document()
+        loader = PyPDFLoader(
+            file_path=url,
+            mode="single",
+            pages_delimiter=""
+        )
+        docs = loader.load()
+        return docs
+
+    def split_text(self):
+        docs = self.load_document()
+        text_splitter = RecursiveCharacterTextSplitter(
+            chunk_size=1000,
+            chunk_overlap=200,
+            length_function=len
+        )
+
+        splits = text_splitter.split_documents(docs)
+        return splits
+
+    def retriever(self):
+        splits = self.split_text()
+        embedding = OllamaEmbeddings(model="mxbai-embed-large:latest")
+        vector_store = Chroma.from_documents(documents=splits, embedding=embedding)
+        retriever = vector_store.as_retriever(search_kwargs={"k":3})
+        return retriever
+

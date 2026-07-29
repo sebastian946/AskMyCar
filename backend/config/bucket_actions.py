@@ -20,7 +20,8 @@ def upload_file(brand:str, model: str, year: str, name: str, file_path: str, con
     )
     return key
 
-def get_file_url(key:str, expires_in:int = 3600) -> str:
+def get_file_url(brand:str,model:str, year:str, expires_in:int = 3600) -> str:
+    key = f"{brand}/{model}/{year}/"
     return s3.generate_presigned_url(
         "get_object",
         Params={"Bucket": bucket_name, "Key": key},
