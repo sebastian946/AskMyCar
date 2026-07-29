@@ -61,5 +61,16 @@ class Web_Scraping:
         os.remove(path)
         return key
 
+    def scrape_and_upload(self) -> str:
+        browser, page = self.init_page()
+        try:
+            link = self.get_manual_renault(page)
+            path = self.download_manual(page, link)
+            key = self.upload_manual(path, self.model, self.year)
+        finally:
+            browser.close()
+            self.close()
+        return key
+
     def close(self):
         self.p.stop()

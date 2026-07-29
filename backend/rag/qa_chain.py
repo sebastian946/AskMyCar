@@ -2,7 +2,7 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
 from config.config import get_llm
-from load_document import LoadManual
+from rag.load_document import LoadManual
 
 
 template = """
