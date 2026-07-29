@@ -14,13 +14,10 @@ class Web_Scraping:
         self.p = sync_playwright().start()
         self.config = Config()
         self.renault_url = self.config.get_reanult_url()
-        self.chevrolet_url = self.config.get_chevrolet_url()
 
     def init_page(self):
         if self.brand == "renault":
             url = self.renault_url
-        elif self.brand == "chevrolet":
-            url = self.chevrolet_url
         else:
             raise ValueError(f"Unsupported brand: {self.brand}")
 
@@ -62,6 +59,17 @@ class Web_Scraping:
             content_type="application/pdf",
         )
         os.remove(path)
+        return key
+
+    def scrape_and_upload(self) -> str:
+        browser, page = self.init_page()
+        try:
+            link = self.get_manual_renault(page)
+            path = self.download_manual(page, link)
+            key = self.upload_manual(path, self.model, self.year)
+        finally:
+            browser.close()
+            self.close()
         return key
 
     def close(self):
