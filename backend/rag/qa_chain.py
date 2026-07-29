@@ -14,9 +14,8 @@ template = """
 """
 
 class ManualQAChain:
-    def __init__(self, brand, model, year) -> None:
-        manual = LoadManual(brand, model, year)
-        self.retriever = manual.retriever()
+    def __init__(self,retriever) -> None:
+        self.retriever = retriever
 
     def text_prompt(self, question: str) -> str:
         prompt = ChatPromptTemplate.from_template(template)
