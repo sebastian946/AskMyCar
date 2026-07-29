@@ -13,6 +13,7 @@ Uso (desde la carpeta backend/):
 import argparse
 
 from config.config import get_llm
+from rag.load_document import LoadManual
 from rag.qa_chain import ManualQAChain
 
 
@@ -22,7 +23,8 @@ def run(brand: str, model: str, year: str, question: str) -> None:
 
     print(f"Cargando manual: {brand}/{model}/{year} ...")
     try:
-        chain = ManualQAChain(brand, model, year)
+        retriever = LoadManual(brand, model, year).retriever()
+        chain = ManualQAChain(retriever)
     except Exception as exc:
         print(f"FAIL al cargar/indexar el manual -> {exc}")
         raise SystemExit(1)

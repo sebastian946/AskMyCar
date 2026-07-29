@@ -1,1 +1,5 @@
 .env
+/backend/download/
+
+__pycache__/
+*.pyc
