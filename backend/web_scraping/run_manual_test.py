@@ -1,14 +1,15 @@
-"""Ejecuta el scraping de manuales de Renault contra una lista de combinaciones
-modelo/año tomadas del sitio real, para validar que get_manual_renault encuentra
-el link correcto en cada caso.
+"""Runs the Renault manual scraper against a list of model/year combinations
+taken from the real site, to validate that get_manual_renault finds the
+correct link for each case.
 
-get_manual_renault ahora resuelve solo por (modelo, anio) -- sin mes -- y toma
-el primer manual de ese anio que aparezca en el sitio. Por eso _RAW_TEST_CASES
-(con mes) se reduce a un caso por (modelo, anio) unico antes de correr las
-pruebas: probar "Sandero" "03/2021" y "07/2021" por separado ya no tiene
-sentido, porque ambos matchean el mismo patron y devuelven el mismo link.
+get_manual_renault now resolves only by (model, year) -- no month -- and
+takes the first manual for that year that appears on the site. That's why
+_RAW_TEST_CASES (with month) gets reduced to one case per unique (model, year)
+before running the tests: testing "Sandero" "03/2021" and "07/2021"
+separately no longer makes sense, since both match the same pattern and
+return the same link.
 
-Uso (desde la carpeta backend/):
+Usage (from the backend/ folder):
     uv run python -m web_scraping.run_manual_test
     uv run python -m web_scraping.run_manual_test --download
     uv run python -m web_scraping.run_manual_test --upload
@@ -18,7 +19,7 @@ import argparse
 from web_scraping.scraping import Web_Scraping
 
 _RAW_TEST_CASES = [
-    # -- linea "nuevo" --
+    # -- "nuevo" line --
     ("Kwid", "05/2022"),
     ("Kwid", "05/2023"),
     ("Kwid", "10/2024"),
@@ -47,7 +48,7 @@ _RAW_TEST_CASES = [
     ("Stepway", "12/2021"),
     ("Stepway", "06/2022"),
     ("Stepway", "10/2022"),
-    # -- linea anterior (sin prefijo "nuevo") --
+    # -- previous line (no "nuevo" prefix) --
     ("Kwid", "12/2018"),
     ("Kwid", "11/2019"),
     ("Kwid", "07/2020"),
@@ -90,9 +91,9 @@ def run(download: bool, upload: bool) -> None:
                     path = ws.download_manual(page, link)
                     if upload:
                         key = ws.upload_manual(path, model, year)
-                        print(f"OK   {label:<20} -> subido a s3://{key} (local eliminado)")
+                        print(f"OK   {label:<20} -> uploaded to s3://{key} (local copy deleted)")
                     else:
-                        print(f"OK   {label:<20} -> descargado en {path}")
+                        print(f"OK   {label:<20} -> downloaded to {path}")
                 else:
                     href = link.get_attribute("href")
                     print(f"OK   {label:<20} -> {href}")
@@ -104,20 +105,20 @@ def run(download: bool, upload: bool) -> None:
         browser.close()
         ws.close()
 
-    print(f"\n{passed} ok, {failed} fallidos, {len(TEST_CASES)} en total")
+    print(f"\n{passed} ok, {failed} failed, {len(TEST_CASES)} total")
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Prueba el scraping de manuales de Renault")
+    parser = argparse.ArgumentParser(description="Test the Renault manual scraper")
     parser.add_argument(
         "--download",
         action="store_true",
-        help="descarga cada PDF en vez de solo resolver el link (mas lento)",
+        help="download each PDF instead of just resolving the link (slower)",
     )
     parser.add_argument(
         "--upload",
         action="store_true",
-        help="descarga cada PDF y lo sube al bucket S3 con brand/model/year (implica --download)",
+        help="download each PDF and upload it to the S3 bucket with brand/model/year (implies --download)",
     )
     args = parser.parse_args()
     run(args.download, args.upload)

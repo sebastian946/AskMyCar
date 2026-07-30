@@ -21,7 +21,7 @@ def get_manual(request: Request, car_data:Car):
     except ValueError as exc:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(exc))
     except Exception as exc:
-        print(f"Error en /get_manual: {exc}")
+        print(f"Error in /get_manual: {exc}")
         raise HTTPException(status_code=status.HTTP_502_BAD_GATEWAY, detail="No se pudo obtener el manual")
     return ManualResponse(status=result["status"], car=car_data, message=result["message"])
 
@@ -33,6 +33,6 @@ def chat_ia(request: Request, body: ChatRequest):
     except ValueError as exc:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(exc))
     except Exception as exc:
-        print(f"Error en /chat_ai: {exc}")
+        print(f"Error in /chat_ai: {exc}")
         raise HTTPException(status_code=status.HTTP_502_BAD_GATEWAY, detail="No se pudo responder la pregunta")
     return ChatResponse(car=body.car, question=body.question, answer=result["answer"], sources=result["sources"])

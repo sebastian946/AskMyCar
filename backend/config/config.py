@@ -30,11 +30,11 @@ class Config:
 
 
 def get_llm(temperature: float = 0):
-    """Devuelve ChatAnthropic si hay credenciales de Anthropic en el entorno; si no, cae a Ollama local."""
+    """Returns ChatAnthropic if Anthropic credentials are in the environment; otherwise falls back to local Ollama."""
     load_dotenv()
     if os.environ.get("ANTHROPIC_API_KEY"):
         model = os.environ.get("ANTHROPIC_MODEL", "claude-sonnet-5")
-        # No se pasa `temperature`: los modelos Claude 5 lo rechazan (400 Bad Request).
+        # `temperature` is not passed: Claude 5 models reject it (400 Bad Request).
         return ChatAnthropic(model=model)
 
     model = os.environ.get("OLLAMA_MODEL", "llama3.2")
