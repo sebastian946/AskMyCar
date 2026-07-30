@@ -3,11 +3,12 @@ esta, hace scraping del sitio del fabricante y lo sube), lo descarga, lo parte
 en chunks, arma el retriever (Chroma + embeddings de Ollama) y le hace una
 pregunta al LLM (Anthropic si hay ANTHROPIC_API_KEY, si no Ollama).
 
-El --year va con barra, igual que en el sitio del fabricante (ej. "09/2019");
-LoadManual lo convierte a guiones internamente solo para hablar con S3.
+El --year es solo el anio (ej. "2019", sin mes). Si el manual no esta en S3,
+se hace scraping y se toma el primer manual de ese modelo/anio que aparezca
+en el sitio (sin importar el mes).
 
 Uso (desde la carpeta backend/):
-    uv run python -m rag.run_qa_test --model Sandero --year 09/2019 \
+    uv run python -m rag.run_qa_test --model Sandero --year 2019 \
         --question "Cada cuanto se cambia el aceite?"
 """
 import argparse
@@ -52,7 +53,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Prueba manual del pipeline RAG (rag/)")
     parser.add_argument("--brand", default="renault")
     parser.add_argument("--model", required=True, help="ej. Sandero")
-    parser.add_argument("--year", required=True, help="ej. 09/2019 (con barra, igual que en el sitio del fabricante)")
+    parser.add_argument("--year", required=True, help="ej. 2019 (solo el anio, sin mes)")
     parser.add_argument("--question", default="Cada cuanto se debe cambiar el aceite del motor?")
     args = parser.parse_args()
     run(args.brand, args.model, args.year, args.question)

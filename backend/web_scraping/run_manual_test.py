@@ -2,6 +2,12 @@
 modelo/año tomadas del sitio real, para validar que get_manual_renault encuentra
 el link correcto en cada caso.
 
+get_manual_renault ahora resuelve solo por (modelo, anio) -- sin mes -- y toma
+el primer manual de ese anio que aparezca en el sitio. Por eso _RAW_TEST_CASES
+(con mes) se reduce a un caso por (modelo, anio) unico antes de correr las
+pruebas: probar "Sandero" "03/2021" y "07/2021" por separado ya no tiene
+sentido, porque ambos matchean el mismo patron y devuelven el mismo link.
+
 Uso (desde la carpeta backend/):
     uv run python -m web_scraping.run_manual_test
     uv run python -m web_scraping.run_manual_test --download
@@ -11,7 +17,7 @@ import argparse
 
 from web_scraping.scraping import Web_Scraping
 
-TEST_CASES = [
+_RAW_TEST_CASES = [
     # -- linea "nuevo" --
     ("Kwid", "05/2022"),
     ("Kwid", "05/2023"),
@@ -62,6 +68,10 @@ TEST_CASES = [
     ("Logan", "03/2018"),
     ("Logan", "10/2018"),
 ]
+
+TEST_CASES = list(dict.fromkeys(
+    (model, month_year.split("/")[-1]) for model, month_year in _RAW_TEST_CASES
+))
 
 
 def run(download: bool, upload: bool) -> None:

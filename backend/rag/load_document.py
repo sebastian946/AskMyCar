@@ -12,14 +12,13 @@ class LoadManual:
         self.year = year
 
     def get_document(self):
-        s3_year = self.year.replace("/", "-")
         try:
-            return get_file_url(self.brand, self.model, s3_year)
+            return get_file_url(self.brand, self.model, self.year)
         except FileNotFoundError:
             print(f"Manual no encontrado en S3, haciendo scraping: {self.brand}/{self.model}/{self.year} ...")
             scraper = Web_Scraping(brand=self.brand, year=self.year, model=self.model)
             scraper.scrape_and_upload()
-            return get_file_url(self.brand, self.model, s3_year)
+            return get_file_url(self.brand, self.model, self.year)
 
     def load_document(self):
         url = self.get_document()
