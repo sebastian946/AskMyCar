@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AskMyCar | Tu manual, ahora inteligente</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-highest": "#333535",
+                    "secondary-fixed-dim": "#ffb5a0",
+                    "on-surface": "#e2e2e2",
+                    "inverse-primary": "#5f5e5e",
+                    "on-tertiary-container": "#848282",
+                    "on-error-container": "#ffdad6",
+                    "tertiary-container": "#1a1a1a",
+                    "tertiary-fixed": "#e5e2e1",
+                    "surface-bright": "#38393a",
+                    "surface-container-low": "#1a1c1c",
+                    "primary-container": "#1a1a1a",
+                    "inverse-on-surface": "#2f3131",
+                    "surface-dim": "#121414",
+                    "primary-fixed": "#e5e2e1",
+                    "inverse-surface": "#e2e2e2",
+                    "surface-container": "#1e2020",
+                    "surface-variant": "#333535",
+                    "surface": "#121414",
+                    "on-secondary-container": "#fffbff",
+                    "on-primary": "#313030",
+                    "secondary-fixed": "#ffdbd1",
+                    "outline": "#8e9192",
+                    "background": "#121414",
+                    "on-error": "#690005",
+                    "secondary": "#ffb5a0",
+                    "tertiary-fixed-dim": "#c9c6c5",
+                    "on-primary-fixed": "#1c1b1b",
+                    "surface-container-high": "#282a2b",
+                    "error": "#ffb4ab",
+                    "on-surface-variant": "#c4c7c7",
+                    "primary": "#c8c6c5",
+                    "secondary-container": "#d73b00",
+                    "on-tertiary": "#313030",
+                    "surface-container-lowest": "#0c0f0f",
+                    "primary-fixed-dim": "#c8c6c5",
+                    "tertiary": "#c9c6c5",
+                    "on-secondary": "#5f1500",
+                    "on-secondary-fixed": "#3b0900",
+                    "on-primary-fixed-variant": "#474746",
+                    "on-background": "#e2e2e2",
+                    "on-primary-container": "#848282",
+                    "on-tertiary-fixed": "#1c1b1b",
+                    "error-container": "#93000a",
+                    "outline-variant": "#444748",
+                    "on-tertiary-fixed-variant": "#474646",
+                    "surface-tint": "#c8c6c5",
+                    "on-secondary-fixed-variant": "#862200",
+                    "accent-orange": "#FF5722"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "sm": "12px",
+                    "xs": "4px",
+                    "md": "24px",
+                    "base": "8px",
+                    "container-max": "1200px",
+                    "xl": "64px",
+                    "gutter": "24px",
+                    "lg": "40px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Montserrat"],
+                    "body-md": ["Inter"],
+                    "headline-xl": ["Montserrat"],
+                    "body-lg": ["Inter"],
+                    "headline-lg": ["Montserrat"],
+                    "label-caps": ["JetBrains Mono"],
+                    "chat-text": ["Inter"],
+                    "headline-lg-mobile": ["Montserrat"]
+            },
+            "fontSize": {
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-xl": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                    "chat-text": ["16px", {"lineHeight": "26px", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #121414;
+            color: #e2e2e2;
+            overflow-x: hidden;
+        }
+        
+        .cockpit-outline {
+            border: 1px solid #333333;
+        }
+        
+        .active-glow {
+            border-color: #FF5722;
+            box-shadow: 0px 0px 12px rgba(255, 87, 34, 0.4);
+        }
+
+        .instrument-gradient {
+            background: radial-gradient(circle at center, rgba(255, 87, 34, 0.15) 0%, transparent 70%);
+        }
+
+        .segment-bar {
+            display: flex;
+            gap: 2px;
+        }
+        .segment {
+            width: 4px;
+            height: 16px;
+            background: #333333;
+        }
+        .segment.active {
+            background: #FF5722;
+            box-shadow: 0 0 5px #FF5722;
+        }
+
+        /* Scanline effect */
+        .scanline {
+            width: 100%;
+            height: 100px;
+            z-index: 10;
+            background: linear-gradient(0deg, rgba(255, 87, 34, 0) 0%, rgba(255, 87, 34, 0.05) 50%, rgba(255, 87, 34, 0) 100%);
+            position: absolute;
+            top: -100px;
+            animation: scan 4s linear infinite;
+        }
+
+        @keyframes scan {
+            0% { top: -100px; }
+            100% { top: 100%; }
+        }
+
+        .mask-fade {
+            mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md">
+<!-- TopAppBar from JSON -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-md py-sm max-w-container-max mx-auto bg-surface/80 backdrop-blur-md border-b border-outline-variant">
+<div class="flex items-center gap-sm">
+<span class="font-headline-md text-headline-md font-bold text-on-surface">AskMyCar</span>
+</div>
+<div class="hidden md:flex gap-lg items-center">
+<nav class="flex gap-md">
+<a class="text-secondary font-bold border-b-2 border-secondary font-label-caps text-label-caps transition-colors" href="#">Diagnostics</a>
+<a class="text-on-surface-variant hover:text-secondary transition-colors font-label-caps text-label-caps" href="#">Manuals</a>
+<a class="text-on-surface-variant hover:text-secondary transition-colors font-label-caps text-label-caps" href="#">Maintenance</a>
+<a class="text-on-surface-variant hover:text-secondary transition-colors font-label-caps text-label-caps" href="#">Settings</a>
+</nav>
+</div>
+<div class="flex items-center gap-sm">
+<div class="hidden md:flex flex-col items-end mr-sm">
+<span class="text-[10px] font-label-caps text-on-surface-variant uppercase tracking-widest">Active Vehicle</span>
+<span class="font-label-caps text-label-caps text-secondary">2024 Renault Megane</span>
+</div>
+<button class="bg-secondary-container text-on-secondary-container px-sm py-xs font-label-caps text-[11px] rounded uppercase tracking-tighter hover:scale-95 transition-transform active:scale-90">
+                Change Vehicle
+            </button>
+</div>
+</header>
+<main class="pt-xl min-h-screen flex flex-col items-center relative">
+<!-- Background Animation Overlay -->
+<div class="absolute inset-0 z-0 pointer-events-none opacity-30">
+
+</div>
+<!-- Hero Section -->
+<section class="relative z-10 w-full max-w-container-max px-md pt-xl pb-lg flex flex-col md:flex-row items-center gap-xl">
+<!-- Left: Text & CTA -->
+<div class="flex-1 space-y-lg text-center md:text-left">
+<div class="inline-flex items-center gap-sm px-sm py-xs bg-surface-container-highest rounded-full border border-outline-variant">
+<span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+<span class="font-label-caps text-[10px] uppercase tracking-widest text-on-surface">Engineered for Technical Precision</span>
+</div>
+<h1 class="font-headline-xl text-[48px] md:text-[72px] leading-tight tracking-tighter uppercase italic">
+                    Tu manual, <br/>
+<span class="text-secondary">ahora inteligente</span>
+</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl">
+                    Preguntá lo que quieras sobre tu auto y obtené respuestas precisas citando el manual oficial. Sin vueltas, directo al grano.
+                </p>
+<div class="flex flex-col sm:flex-row gap-md justify-center md:justify-start pt-md">
+<button class="bg-accent-orange text-black font-headline-md text-headline-md px-lg py-sm rounded-lg hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-sm group">
+                        Buscar mi Manual
+                        <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+<button class="bg-surface-container-low border border-outline-variant text-on-surface font-headline-md text-headline-md px-lg py-sm rounded-lg hover:bg-surface-variant transition-all flex items-center justify-center gap-sm">
+                        Ver Demo
+                    </button>
+</div>
+<!-- Quick Stats / Gauges -->
+<div class="grid grid-cols-2 md:grid-cols-3 gap-md pt-lg">
+<div class="cockpit-outline bg-surface-container-low p-sm rounded-lg">
+<span class="font-label-caps text-[10px] text-on-surface-variant block mb-xs">INDEXED PAGES</span>
+<span class="font-headline-md text-headline-md text-on-surface">45,200+</span>
+</div>
+<div class="cockpit-outline bg-surface-container-low p-sm rounded-lg">
+<span class="font-label-caps text-[10px] text-on-surface-variant block mb-xs">RESPONSE TIME</span>
+<span class="font-headline-md text-headline-md text-secondary">0.8s</span>
+</div>
+<div class="cockpit-outline bg-surface-container-low p-sm rounded-lg hidden md:block">
+<span class="font-label-caps text-[10px] text-on-surface-variant block mb-xs">MODELS SUPPORTED</span>
+<span class="font-headline-md text-headline-md text-on-surface">1,250</span>
+</div>
+</div>
+</div>
+<!-- Right: Visual Cockpit HUD -->
+<div class="flex-1 relative w-full max-w-md md:max-w-none">
+<div class="relative z-10 cockpit-outline bg-surface-container-lowest p-md rounded-xl active-glow overflow-hidden">
+<div class="scanline"></div>
+<!-- HUD Header -->
+<div class="flex justify-between items-center border-b border-outline-variant pb-sm mb-md">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-secondary text-md">robot_2</span>
+<span class="font-label-caps text-[12px] text-on-surface">ASKMYCAR-OS v2.4</span>
+</div>
+<div class="segment-bar">
+<div class="segment active"></div>
+<div class="segment active"></div>
+<div class="segment active"></div>
+<div class="segment active"></div>
+<div class="segment"></div>
+</div>
+</div>
+<!-- AI Chat Simulation -->
+<div class="space-y-md mb-lg">
+<div class="flex flex-col items-end">
+<div class="bg-surface-container-highest px-sm py-xs rounded-lg rounded-tr-none text-on-surface max-w-[80%] text-sm">
+                                ¿Cómo activo el control de crucero adaptativo?
+                            </div>
+</div>
+<div class="flex flex-col items-start">
+<div class="bg-surface p-sm rounded-lg rounded-tl-none border-l-2 border-secondary text-on-surface-variant max-w-[90%] text-sm relative">
+<p class="mb-xs">Para activar el sistema en tu Renault Megane:</p>
+<ol class="list-decimal pl-sm space-y-xs font-chat-text">
+<li>Presiona el interruptor en el volante izquierdo.</li>
+<li>La luz indicadora <span class="text-secondary">verde</span> se iluminará en el tablero.</li>
+<li>Acelera hasta la velocidad deseada y presiona "SET-".</li>
+</ol>
+<div class="mt-sm pt-xs border-t border-outline-variant flex justify-between items-center">
+<span class="font-label-caps text-[10px] text-on-tertiary-container">FUENTE: Pág. 142 - Sección 2.12</span>
+<span class="material-symbols-outlined text-sm text-secondary">verified</span>
+</div>
+</div>
+</div>
+</div>
+<!-- HUD Footer: Interactive Inputs -->
+<div class="relative">
+<input class="w-full bg-surface-container-lowest border border-outline-variant rounded p-sm text-sm focus:ring-0 focus:border-secondary transition-all placeholder:text-on-tertiary-container italic" placeholder="Escribí tu consulta..." type="text"/>
+<button class="absolute right-sm top-1/2 -translate-y-1/2 text-secondary">
+<span class="material-symbols-outlined">send</span>
+</button>
+</div>
+</div>
+<!-- Floating Gauges around the HUD -->
+<div class="absolute -top-6 -right-6 md:-top-10 md:-right-10 w-32 h-32 md:w-48 md:h-48 rounded-full cockpit-outline border-dashed border-secondary/30 flex items-center justify-center bg-surface/40 backdrop-blur-sm z-0">
+<div class="text-center">
+<div class="font-label-caps text-[10px] text-on-surface-variant">RPM x1000</div>
+<div class="font-headline-lg text-headline-lg text-secondary">6.5</div>
+<div class="w-full h-1 bg-surface-container-highest mt-xs relative overflow-hidden rounded-full">
+<div class="absolute left-0 h-full w-[80%] bg-accent-orange"></div>
+</div>
+</div>
+</div>
+<div class="absolute -bottom-8 -left-8 w-40 h-40 rounded-lg cockpit-outline bg-surface-container-lowest/80 backdrop-blur-md p-sm z-20 flex flex-col justify-between border-l-4 border-l-accent-orange">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">tire_repair</span>
+<span class="font-label-caps text-[10px] text-green-400">OPTIMAL</span>
+</div>
+<div>
+<div class="font-headline-md text-headline-md">32.5 PSI</div>
+<div class="font-label-caps text-[10px] text-on-surface-variant">FRONT TIRES</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Featured Cars / Logos Section -->
+<section class="w-full bg-surface-container-lowest py-lg border-y border-outline-variant">
+<div class="max-w-container-max mx-auto px-md">
+<p class="font-label-caps text-[11px] text-center text-on-tertiary-container uppercase tracking-[0.2em] mb-md">Supported Manufacturers</p>
+<div class="flex flex-wrap justify-center gap-xl opacity-40 grayscale hover:grayscale-0 transition-all">
+<!-- Manufacturer Placeholders -->
+<div class="flex items-center gap-xs font-headline-md text-headline-md">
+<span class="material-symbols-outlined">directions_car</span> RENAULT
+                    </div>
+<div class="flex items-center gap-xs font-headline-md text-headline-md">
+<span class="material-symbols-outlined">directions_car</span> VOLKSWAGEN
+                    </div>
+<div class="flex items-center gap-xs font-headline-md text-headline-md">
+<span class="material-symbols-outlined">directions_car</span> TOYOTA
+                    </div>
+<div class="flex items-center gap-xs font-headline-md text-headline-md">
+<span class="material-symbols-outlined">directions_car</span> BMW
+                    </div>
+<div class="flex items-center gap-xs font-headline-md text-headline-md">
+<span class="material-symbols-outlined">directions_car</span> TESLA
+                    </div>
+</div>
+</div>
+</section>
+<!-- Bento Grid: Why AskMyCar? -->
+<section class="w-full max-w-container-max px-md py-xl">
+<h2 class="font-headline-lg text-headline-lg text-center mb-xl uppercase italic">Performance Features</h2>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-md h-auto md:h-[500px]">
+<!-- Bento Item 1 -->
+<div class="md:col-span-2 cockpit-outline bg-surface-container rounded-xl p-lg flex flex-col justify-between group overflow-hidden relative">
+<div class="relative z-10">
+<span class="material-symbols-outlined text-accent-orange text-4xl mb-md">menu_book</span>
+<h3 class="font-headline-md text-headline-md mb-sm">Lectura instantánea de manuales</h3>
+<p class="text-on-surface-variant font-body-md max-w-md">No pierdas tiempo buscando entre cientos de páginas. Nuestra IA ha leído y comprendido cada párrafo, diagrama y advertencia de seguridad.</p>
+</div>
+<div class="absolute right-0 bottom-0 w-1/2 h-2/3 opacity-20 group-hover:opacity-40 transition-opacity">
+<div class="w-full h-full bg-cover bg-center mask-fade" data-alt="A high-resolution close-up of a premium leather car manual with detailed stitching. The lighting is moody and technical, with orange ambient dashboard light reflecting off the embossed logo on the cover. Cinematic automotive photography style." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCs5fm7XCsGkLS_WlmxOKBXd453u9fqxEF2TDnEg1I_G2Pox801HtunSOWYMgnPgBSOmnlP5h1T0AzXjL_xiRHzxQV_TwbOzqrQld9Wx3yWQziWusPRb_wViaAFruKVJne-XAcMo7pyPBFvZLId4WRwfNT-SlJGiQh7PAhN9cBVs87Dcebmh68Ey8mhLZhqyFmP3B-u0y1JPZ-8PHH8j2VrXy4a9zeMVRpWl9nPkbIYamxd0jypH5bQcg')"></div>
+</div>
+</div>
+<!-- Bento Item 2 -->
+<div class="cockpit-outline bg-surface-container-high rounded-xl p-lg flex flex-col active-glow transition-all">
+<span class="material-symbols-outlined text-secondary text-4xl mb-md">warning</span>
+<h3 class="font-headline-md text-headline-md mb-sm">Códigos de Error</h3>
+<p class="text-on-surface-variant font-body-md">Decodifica instantáneamente las luces de tu tablero. Explicamos qué significan y qué tan urgente es la reparación.</p>
+<div class="mt-auto pt-md flex justify-end">
+<div class="w-12 h-12 rounded-full bg-accent-orange/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-accent-orange">switch_account</span>
+</div>
+</div>
+</div>
+<!-- Bento Item 3 -->
+<div class="cockpit-outline bg-surface-container-highest rounded-xl p-lg flex flex-col">
+<h3 class="font-headline-md text-headline-md mb-sm text-secondary">Mantenimiento Predictivo</h3>
+<p class="text-on-surface-variant font-body-md">Recibí alertas basadas en el cronograma oficial de tu vehículo para cambios de aceite, filtros y correas.</p>
+<div class="mt-lg h-24 flex items-end gap-xs">
+<div class="flex-1 bg-surface-container-high h-[40%] rounded-t-sm"></div>
+<div class="flex-1 bg-surface-container-high h-[60%] rounded-t-sm"></div>
+<div class="flex-1 bg-accent-orange h-[80%] rounded-t-sm shadow-[0_0_10px_#FF5722]"></div>
+<div class="flex-1 bg-surface-container-high h-[50%] rounded-t-sm"></div>
+<div class="flex-1 bg-surface-container-high h-[70%] rounded-t-sm"></div>
+</div>
+</div>
+<!-- Bento Item 4 -->
+<div class="md:col-span-2 cockpit-outline bg-surface-container rounded-xl p-lg flex items-center gap-lg">
+<div class="hidden sm:block w-32 h-32 rounded-full border-4 border-outline-variant border-t-accent-orange animate-spin duration-[3000ms]"></div>
+<div>
+<h3 class="font-headline-md text-headline-md mb-sm">Integración Multi-Vehículo</h3>
+<p class="text-on-surface-variant font-body-md">Gestioná toda tu flota o garaje desde un solo lugar. AskMyCar guarda el historial técnico de cada uno de tus autos.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- CTA Footer -->
+<section class="w-full max-w-container-max px-md py-xl mb-xl">
+<div class="bg-gradient-to-r from-surface-container-low to-surface-container-highest rounded-2xl p-xl cockpit-outline relative overflow-hidden">
+<div class="absolute -right-20 -top-20 w-64 h-64 bg-accent-orange/10 rounded-full blur-3xl"></div>
+<div class="relative z-10 text-center max-w-2xl mx-auto space-y-md">
+<h2 class="font-headline-lg text-headline-lg">¿Listo para conocer tu auto a fondo?</h2>
+<p class="text-on-surface-variant">Unite a miles de conductores que ya no dependen del azar ni de búsquedas infinitas en Google.</p>
+<div class="pt-sm">
+<button class="bg-on-surface text-background font-headline-md text-headline-md px-xl py-md rounded-lg hover:bg-secondary-fixed transition-colors">
+                            COMENZAR AHORA
+                        </button>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- SideNavBar (Mobile view only/Hidden by default as per JSON layout) -->
+<aside class="hidden md:flex flex-col h-screen sticky top-0 left-0 w-64 bg-surface-container-low border-r border-outline-variant fixed">
+<div class="p-md border-b border-outline-variant">
+<h1 class="font-headline-md text-headline-md text-primary font-bold">AskMyCar</h1>
+</div>
+<div class="p-md flex-1">
+<div class="mb-lg flex items-center gap-sm">
+<div class="w-10 h-10 rounded-full bg-surface-variant flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary">person</span>
+</div>
+<div>
+<div class="font-label-caps text-[11px] text-secondary">Master Technician</div>
+<div class="text-[10px] text-on-tertiary-container uppercase">Renault Expert Mode</div>
+</div>
+</div>
+<nav class="space-y-xs">
+<a class="flex items-center gap-sm p-sm text-on-surface-variant hover:bg-surface-variant rounded-lg transition-all font-label-caps text-label-caps" href="#">
+<span class="material-symbols-outlined">build</span> Diagnostics
+                </a>
+<a class="flex items-center gap-sm p-sm text-secondary bg-surface-container-highest rounded-lg font-label-caps text-label-caps translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined">book</span> Manuals
+                </a>
+<a class="flex items-center gap-sm p-sm text-on-surface-variant hover:bg-surface-variant rounded-lg transition-all font-label-caps text-label-caps" href="#">
+<span class="material-symbols-outlined">history</span> Maintenance
+                </a>
+<a class="flex items-center gap-sm p-sm text-on-surface-variant hover:bg-surface-variant rounded-lg transition-all font-label-caps text-label-caps" href="#">
+<span class="material-symbols-outlined">settings</span> Settings
+                </a>
+</nav>
+</div>
+<div class="p-md">
+<button class="w-full py-sm bg-secondary text-on-secondary font-label-caps text-label-caps rounded-lg hover:scale-95 transition-transform">
+                Upgrade Pro
+            </button>
+</div>
+</aside>
+<footer class="w-full bg-surface-container-lowest border-t border-outline-variant py-md px-md">
+<div class="max-w-container-max mx-auto flex flex-col md:flex-row justify-between items-center gap-md">
+<div class="font-label-caps text-[10px] text-on-tertiary-container uppercase tracking-widest">
+                © 2024 AskMyCar AI Systems. All Rights Reserved.
+            </div>
+<div class="flex gap-lg">
+<a class="font-label-caps text-[10px] text-on-tertiary-container hover:text-secondary" href="#">Privacy Policy</a>
+<a class="font-label-caps text-[10px] text-on-tertiary-container hover:text-secondary" href="#">Terms of Service</a>
+<a class="font-label-caps text-[10px] text-on-tertiary-container hover:text-secondary" href="#">API Access</a>
+</div>
+</div>
+</footer>
+<script>
+        // Micro-interaction for HUD simulation
+        const input = document.querySelector('input');
+        const sendBtn = document.querySelector('button .material-symbols-outlined:contains("send")');
+        
+        input?.addEventListener('focus', () => {
+            input.parentElement.parentElement.classList.add('active-glow');
+        });
+        
+        input?.addEventListener('blur', () => {
+            input.parentElement.parentElement.classList.remove('active-glow');
+        });
+
+        // Atmospheric segment flicker
+        setInterval(() => {
+            const segments = document.querySelectorAll('.segment');
+            const rand = Math.floor(Math.random() * segments.length);
+            segments[rand].classList.toggle('opacity-50');
+            setTimeout(() => segments[rand].classList.toggle('opacity-50'), 100);
+        }, 3000);
+    </script>
+</body></html>

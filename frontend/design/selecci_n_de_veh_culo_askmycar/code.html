@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AskMyCar - Selección de Vehículo</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&amp;family=Inter:wght@400;500;700&amp;family=JetBrains+Mono:wght@700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-highest": "#333535",
+                    "secondary-fixed-dim": "#ffb5a0",
+                    "on-surface": "#e2e2e2",
+                    "inverse-primary": "#5f5e5e",
+                    "on-tertiary-container": "#848282",
+                    "on-error-container": "#ffdad6",
+                    "tertiary-container": "#1a1a1a",
+                    "tertiary-fixed": "#e5e2e1",
+                    "surface-bright": "#38393a",
+                    "surface-container-low": "#1a1c1c",
+                    "primary-container": "#1a1a1a",
+                    "inverse-on-surface": "#2f3131",
+                    "surface-dim": "#121414",
+                    "primary-fixed": "#e5e2e1",
+                    "inverse-surface": "#e2e2e2",
+                    "surface-container": "#1e2020",
+                    "surface-variant": "#333535",
+                    "surface": "#121414",
+                    "on-secondary-container": "#fffbff",
+                    "on-primary": "#313030",
+                    "secondary-fixed": "#ffdbd1",
+                    "outline": "#8e9192",
+                    "background": "#121414",
+                    "on-error": "#690005",
+                    "secondary": "#ffb5a0",
+                    "tertiary-fixed-dim": "#c9c6c5",
+                    "on-primary-fixed": "#1c1b1b",
+                    "surface-container-high": "#282a2b",
+                    "error": "#ffb4ab",
+                    "on-surface-variant": "#c4c7c7",
+                    "primary": "#c8c6c5",
+                    "secondary-container": "#d73b00",
+                    "on-tertiary": "#313030",
+                    "surface-container-lowest": "#0c0f0f",
+                    "primary-fixed-dim": "#c8c6c5",
+                    "tertiary": "#c9c6c5",
+                    "on-secondary": "#5f1500",
+                    "on-secondary-fixed": "#3b0900",
+                    "on-primary-fixed-variant": "#474746",
+                    "on-background": "#e2e2e2",
+                    "on-primary-container": "#848282",
+                    "on-tertiary-fixed": "#1c1b1b",
+                    "error-container": "#93000a",
+                    "outline-variant": "#444748",
+                    "on-tertiary-fixed-variant": "#474646",
+                    "surface-tint": "#c8c6c5",
+                    "on-secondary-fixed-variant": "#862200",
+                    "accent-orange": "#FF5722"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "sm": "12px",
+                    "xs": "4px",
+                    "md": "24px",
+                    "base": "8px",
+                    "container-max": "1200px",
+                    "xl": "64px",
+                    "gutter": "24px",
+                    "lg": "40px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Montserrat"],
+                    "body-md": ["Inter"],
+                    "headline-xl": ["Montserrat"],
+                    "body-lg": ["Inter"],
+                    "headline-lg": ["Montserrat"],
+                    "label-caps": ["JetBrains Mono"],
+                    "chat-text": ["Inter"],
+                    "headline-lg-mobile": ["Montserrat"]
+            },
+            "fontSize": {
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-xl": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                    "chat-text": ["16px", {"lineHeight": "26px", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .gauge-segment {
+            transition: background-color 0.3s ease;
+        }
+        .recessed-input {
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
+        }
+        .cockpit-glow {
+            box-shadow: 0 0 15px rgba(255, 87, 34, 0.1);
+        }
+        @keyframes scan {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
+        }
+        .scanner-line {
+            animation: scan 2s linear infinite;
+            background: linear-gradient(to bottom, transparent, #FF5722, transparent);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md selection:bg-accent-orange selection:text-white overflow-hidden">
+<!-- Top Navigation Anchor -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-md py-sm max-w-container-max mx-auto bg-surface/80 backdrop-blur-md border-b border-outline-variant">
+<div class="font-headline-md text-headline-md font-bold text-on-surface">AskMyCar</div>
+<div class="flex items-center gap-md">
+<span class="font-label-caps text-label-caps text-on-surface-variant">MODO TÉCNICO ACTIVADO</span>
+<div class="w-8 h-8 rounded-full bg-surface-container-highest border border-outline-variant flex items-center justify-center">
+<span class="material-symbols-outlined text-sm">person</span>
+</div>
+</div>
+</header>
+<main class="relative min-h-screen flex items-center justify-center pt-xl">
+<!-- Dashboard Background Decorations -->
+<div class="absolute inset-0 opacity-20 pointer-events-none">
+<div class="absolute top-1/4 left-10 w-64 h-64 border border-outline-variant rounded-full border-dashed"></div>
+<div class="absolute bottom-1/4 right-10 w-96 h-96 border border-outline-variant rounded-full border-dashed"></div>
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] border border-outline-variant/10 rounded-full"></div>
+</div>
+<!-- Central Form Panel -->
+<section class="relative z-10 w-full max-w-md mx-auto px-md" id="selection-panel">
+<div class="bg-surface-container-lowest border border-outline-variant p-lg rounded-xl cockpit-glow">
+<div class="mb-lg">
+<h1 class="font-headline-lg text-headline-lg text-primary mb-xs">Configurar Cabina</h1>
+<p class="text-on-surface-variant font-body-md">Ingresa los detalles de tu vehículo para vincular el manual técnico.</p>
+</div>
+<form class="space-y-md" id="vehicle-form">
+<!-- Brand Dropdown -->
+<div class="space-y-xs">
+<label class="font-label-caps text-label-caps text-on-surface-variant">MARCA</label>
+<div class="relative">
+<select class="recessed-input w-full bg-surface-container-low border border-outline-variant rounded-lg p-md text-on-surface focus:border-accent-orange focus:ring-0 transition-colors appearance-none" id="brand-select" required="">
+<option disabled="" selected="" value="">Seleccionar marca</option>
+<option value="renault">Renault</option>
+<option class="text-on-surface-variant/50" disabled="" value="toyota">Toyota (Próximamente)</option>
+<option class="text-on-surface-variant/50" disabled="" value="ford">Ford (Próximamente)</option>
+<option class="text-on-surface-variant/50" disabled="" value="volkswagen">Volkswagen (Próximamente)</option>
+</select>
+<span class="material-symbols-outlined absolute right-md top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant">expand_more</span>
+</div>
+</div>
+<!-- Model Input -->
+<div class="space-y-xs">
+<label class="font-label-caps text-label-caps text-on-surface-variant">MODELO</label>
+<input class="recessed-input w-full bg-surface-container-low border border-outline-variant rounded-lg p-md text-on-surface placeholder:text-on-surface-variant/30 focus:border-accent-orange focus:ring-0 transition-colors" id="model-input" placeholder="Ej: Megane, Clio, Captur..." required="" type="text"/>
+</div>
+<!-- Year Input -->
+<div class="space-y-xs">
+<label class="font-label-caps text-label-caps text-on-surface-variant">AÑO (4 DÍGITOS)</label>
+<input class="recessed-input w-full bg-surface-container-low border border-outline-variant rounded-lg p-md text-on-surface placeholder:text-on-surface-variant/30 focus:border-accent-orange focus:ring-0 transition-colors" id="year-input" max="2025" min="1900" placeholder="YYYY" required="" type="number"/>
+<p class="text-error font-label-caps text-[10px] hidden" id="year-validation">Por favor ingresa un año válido de 4 dígitos</p>
+</div>
+<!-- Submit Button -->
+<button class="w-full mt-lg bg-accent-orange hover:bg-[#E64A19] text-black font-bold py-md rounded-lg flex items-center justify-center gap-sm transition-transform active:scale-95 group" type="submit">
+<span class="font-label-caps text-label-caps">VINCULAR MANUAL</span>
+<span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</form>
+</div>
+<!-- Dashboard Footnote -->
+<div class="mt-md flex justify-between items-center px-sm">
+<div class="flex items-center gap-xs">
+<div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+<span class="font-label-caps text-[10px] text-on-surface-variant">BASE DE DATOS ONLINE</span>
+</div>
+<span class="font-label-caps text-[10px] text-on-surface-variant">VER 2.4.0-STABLE</span>
+</div>
+</section>
+<!-- Loading State Overlay -->
+<div class="fixed inset-0 bg-background z-[100] hidden flex flex-col items-center justify-center p-md" id="loading-overlay">
+<!-- Animated HUD Loader -->
+<div class="relative w-64 h-64 mb-lg">
+<div class="absolute inset-0 border-4 border-outline-variant/20 rounded-full"></div>
+<div class="absolute inset-0 border-4 border-accent-orange rounded-full" id="loading-circle" style="clip-path: polygon(0 0, 50% 0, 50% 50%, 0 50%)"></div>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="material-symbols-outlined text-xl text-accent-orange animate-pulse">engineering</span>
+<div class="font-label-caps text-headline-md mt-sm" id="loading-percent">0%</div>
+</div>
+<!-- Scanner effect -->
+<div class="absolute inset-0 overflow-hidden rounded-full">
+<div class="scanner-line w-full h-1/4 absolute"></div>
+</div>
+</div>
+<!-- Loading Messages -->
+<div class="text-center space-y-md max-w-sm">
+<div class="space-y-sm" id="phase-1-msg">
+<h2 class="font-headline-md text-headline-md text-primary">Iniciando Diagnóstico</h2>
+<p class="text-on-surface-variant">Buscando tu manual en el repositorio central...</p>
+</div>
+<div class="space-y-sm hidden opacity-0 transition-opacity duration-500" id="phase-2-msg">
+<div class="bg-surface-container-high p-md border-l-4 border-accent-orange text-left">
+<p class="font-body-md text-on-surface">No lo teníamos, estamos descargándolo del sitio oficial, puede tardar unos segundos...</p>
+</div>
+<div class="flex gap-xs justify-center">
+<div class="w-8 h-2 bg-accent-orange gauge-segment"></div>
+<div class="w-8 h-2 bg-accent-orange gauge-segment"></div>
+<div class="w-8 h-2 bg-accent-orange gauge-segment"></div>
+<div class="w-8 h-2 bg-surface-container-highest gauge-segment"></div>
+<div class="w-8 h-2 bg-surface-container-highest gauge-segment"></div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Side Decoration (Desktop only) -->
+<aside class="hidden lg:block fixed left-0 top-1/2 -translate-y-1/2 p-md space-y-xl opacity-40">
+<div class="space-y-sm">
+<div class="w-1 h-12 bg-accent-orange"></div>
+<div class="font-label-caps text-[10px] [writing-mode:vertical-lr] tracking-widest uppercase">Telemetry Sync</div>
+</div>
+<div class="space-y-sm">
+<div class="w-1 h-12 bg-outline-variant"></div>
+<div class="font-label-caps text-[10px] [writing-mode:vertical-lr] tracking-widest uppercase">System Core</div>
+</div>
+</aside>
+<script>
+        const form = document.getElementById('vehicle-form');
+        const yearInput = document.getElementById('year-input');
+        const yearValidation = document.getElementById('year-validation');
+        const loadingOverlay = document.getElementById('loading-overlay');
+        const phase1 = document.getElementById('phase-1-msg');
+        const phase2 = document.getElementById('phase-2-msg');
+        const loadingPercent = document.getElementById('loading-percent');
+        const loadingCircle = document.getElementById('loading-circle');
+
+        // Year validation
+        yearInput.addEventListener('input', (e) => {
+            const val = e.target.value;
+            if (val.length > 4) e.target.value = val.slice(0, 4);
+            
+            if (val.length === 4 && (val < 1900 || val > 2025)) {
+                yearValidation.classList.remove('hidden');
+            } else {
+                yearValidation.classList.add('hidden');
+            }
+        });
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Show loading state
+            loadingOverlay.classList.remove('hidden');
+            loadingOverlay.classList.add('animate-in', 'fade-in', 'duration-500');
+
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += Math.floor(Math.random() * 5) + 1;
+                if (progress > 100) progress = 100;
+                
+                loadingPercent.innerText = `${progress}%`;
+                loadingCircle.style.transform = `rotate(${progress * 3.6}deg)`;
+
+                // Phase transition
+                if (progress > 45 && phase2.classList.contains('hidden')) {
+                    phase1.classList.add('opacity-0');
+                    setTimeout(() => {
+                        phase1.classList.add('hidden');
+                        phase2.classList.remove('hidden');
+                        setTimeout(() => phase2.classList.remove('opacity-0'), 50);
+                    }, 300);
+                }
+
+                if (progress === 100) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        // In a real app, redirect or swap content here
+                        alert('Vehículo vinculado correctamente. Redirigiendo al panel de control...');
+                        location.reload(); 
+                    }, 800);
+                }
+            }, 100);
+        });
+
+        // Gauge segment animation
+        setInterval(() => {
+            const segments = document.querySelectorAll('.gauge-segment');
+            segments.forEach((seg, i) => {
+                setTimeout(() => {
+                    seg.classList.toggle('bg-accent-orange', Math.random() > 0.3);
+                    seg.classList.toggle('bg-surface-container-highest', !seg.classList.contains('bg-accent-orange'));
+                }, i * 100);
+            });
+        }, 1000);
+    </script>
+</body></html>

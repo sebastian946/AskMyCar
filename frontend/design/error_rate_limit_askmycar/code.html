@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        :root {
+            --accent-orange: #FF5722;
+            --graphite: #1A1A1A;
+            --matte-black: #0D0D0D;
+        }
+        body {
+            background-color: #121414;
+            color: #e2e2e2;
+            overflow-x: hidden;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .gauge-segment {
+            transition: stroke-dashoffset 1s linear;
+        }
+        .cockpit-border {
+            border: 1px solid #333333;
+        }
+        .cockpit-border-active {
+            border: 1px solid #FF5722;
+            box-shadow: 0px 0px 8px rgba(255, 87, 34, 0.3);
+        }
+        .recessed-input {
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-container-highest": "#333535",
+                      "secondary-fixed-dim": "#ffb5a0",
+                      "on-surface": "#e2e2e2",
+                      "inverse-primary": "#5f5e5e",
+                      "on-tertiary-container": "#848282",
+                      "on-error-container": "#ffdad6",
+                      "tertiary-container": "#1a1a1a",
+                      "tertiary-fixed": "#e5e2e1",
+                      "surface-bright": "#38393a",
+                      "surface-container-low": "#1a1c1c",
+                      "primary-container": "#1a1a1a",
+                      "inverse-on-surface": "#2f3131",
+                      "surface-dim": "#121414",
+                      "primary-fixed": "#e5e2e1",
+                      "inverse-surface": "#e2e2e2",
+                      "surface-container": "#1e2020",
+                      "surface-variant": "#333535",
+                      "surface": "#121414",
+                      "on-secondary-container": "#fffbff",
+                      "on-primary": "#313030",
+                      "secondary-fixed": "#ffdbd1",
+                      "outline": "#8e9192",
+                      "background": "#121414",
+                      "on-error": "#690005",
+                      "secondary": "#ffb5a0",
+                      "tertiary-fixed-dim": "#c9c6c5",
+                      "on-primary-fixed": "#1c1b1b",
+                      "surface-container-high": "#282a2b",
+                      "error": "#ffb4ab",
+                      "on-surface-variant": "#c4c7c7",
+                      "primary": "#c8c6c5",
+                      "secondary-container": "#d73b00",
+                      "on-tertiary": "#313030",
+                      "surface-container-lowest": "#0c0f0f",
+                      "primary-fixed-dim": "#c8c6c5",
+                      "tertiary": "#c9c6c5",
+                      "on-secondary": "#5f1500",
+                      "on-secondary-fixed": "#3b0900",
+                      "on-primary-fixed-variant": "#474746",
+                      "on-background": "#e2e2e2",
+                      "on-primary-container": "#848282",
+                      "on-tertiary-fixed": "#1c1b1b",
+                      "error-container": "#93000a",
+                      "outline-variant": "#444748",
+                      "on-tertiary-fixed-variant": "#474646",
+                      "surface-tint": "#c8c6c5",
+                      "on-secondary-fixed-variant": "#862200"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "sm": "12px",
+                      "xs": "4px",
+                      "md": "24px",
+                      "base": "8px",
+                      "container-max": "1200px",
+                      "xl": "64px",
+                      "gutter": "24px",
+                      "lg": "40px"
+              },
+              "fontFamily": {
+                      "headline-md": ["Montserrat"],
+                      "body-md": ["Inter"],
+                      "headline-xl": ["Montserrat"],
+                      "body-lg": ["Inter"],
+                      "headline-lg": ["Montserrat"],
+                      "label-caps": ["JetBrains Mono"],
+                      "chat-text": ["Inter"],
+                      "headline-lg-mobile": ["Montserrat"]
+              },
+              "fontSize": {
+                      "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "headline-xl": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                      "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                      "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                      "chat-text": ["16px", {"lineHeight": "26px", "fontWeight": "400"}],
+                      "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}]
+              }
+            },
+          },
+        }
+      </script>
+</head>
+<body class="bg-background text-on-background font-body-md">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-md py-sm max-w-container-max mx-auto bg-surface border-b border-outline-variant backdrop-blur-md">
+<div class="flex items-center gap-sm">
+<span class="font-headline-md text-headline-md font-bold text-on-surface">AskMyCar</span>
+</div>
+<div class="hidden md:flex gap-md items-center">
+<div class="flex items-center bg-surface-container-highest px-sm py-xs rounded-lg cockpit-border">
+<div class="w-2 h-2 rounded-full bg-green-500 mr-2 shadow-[0_0_8px_rgba(34,197,94,0.6)]"></div>
+<span class="font-label-caps text-label-caps text-on-surface">2024 Renault Megane</span>
+</div>
+<button class="font-label-caps text-label-caps text-secondary-fixed-dim hover:text-secondary transition-colors">Change Vehicle</button>
+</div>
+</header>
+<div class="flex pt-[72px] min-h-screen">
+<!-- SideNavBar -->
+<aside class="hidden md:flex flex-col h-[calc(100vh-72px)] sticky top-[72px] w-64 bg-surface-container-low border-r border-outline-variant p-md">
+<div class="mb-lg">
+<div class="flex items-center gap-sm mb-xs">
+<img class="w-10 h-10 rounded-full bg-surface-variant object-cover" data-alt="A professional profile headshot of a master car technician wearing a branded Renault garage uniform, standing in a clean, high-tech automotive workshop with blurred LED lighting and engine diagnostic tools in the background. The aesthetic is dark, sharp, and focused, reflecting high-performance automotive software." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBTmw2YtoExAif5h0TyYq0tW-fnC9tBoF0yvNEFm38tNchgYjOTuo0nRPLAcS7xFPL6H2CkNNlFsMWOt-nVHJscPOcC4NdrX_fJGoYsVlhabYv8qqV-VhcH-NZxNn6tTLO8P-Z9iWFrIyAG6A-ZfnXaynchjLo1Rx_s36j6QTsXYu65I21tViJSbJqoqWCZoq4yMVfl4l1W3RFABi2uNhGVLmAB73xaDSqE6e-w3lL1Gfc2aKOua9UtIg"/>
+<div>
+<p class="font-label-caps text-label-caps text-primary">Master Technician</p>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-widest">Renault Expert Mode</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 space-y-base">
+<a class="flex items-center gap-sm p-sm text-on-surface-variant hover:bg-surface-variant rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined">build</span>
+<span class="font-label-caps text-label-caps">Diagnostics</span>
+</a>
+<a class="flex items-center gap-sm p-sm text-on-surface-variant hover:bg-surface-variant rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined">book</span>
+<span class="font-label-caps text-label-caps">Manuals</span>
+</a>
+<a class="flex items-center gap-sm p-sm text-on-surface-variant hover:bg-surface-variant rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined">history</span>
+<span class="font-label-caps text-label-caps">Maintenance</span>
+</a>
+<a class="flex items-center gap-sm p-sm text-on-surface-variant hover:bg-surface-variant rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-caps text-label-caps">Settings</span>
+</a>
+</nav>
+<button class="mt-auto w-full bg-secondary-container text-on-secondary-container py-sm font-label-caps text-label-caps rounded-lg hover:scale-105 transition-transform">
+                Upgrade Pro
+            </button>
+</aside>
+<!-- Main Content (Cockpit HUD) -->
+<main class="flex-1 p-md relative overflow-hidden bg-surface-container-lowest">
+<!-- Atmospheric Shader Background (Subtle) -->
+<div class="absolute inset-0 opacity-20 pointer-events-none">
+
+</div>
+<div class="max-w-4xl mx-auto h-full flex flex-col relative z-10">
+<!-- Chat History (Placeholder Content) -->
+<div class="flex-1 space-y-md mb-md opacity-40 grayscale blur-[2px] pointer-events-none">
+<div class="bg-surface-container p-md cockpit-border rounded-lg max-w-[80%] self-start">
+<p class="font-chat-text text-chat-text">¿Cómo puedo revisar el nivel de aceite en mi Megane 2024?</p>
+</div>
+<div class="bg-matte-black p-md border-l-4 border-secondary-container cockpit-border rounded-lg max-w-[90%] self-end">
+<p class="font-chat-text text-chat-text">Para revisar el nivel de aceite en el Renault Megane 2024, no necesitas una varilla física. Sigue estos pasos en la pantalla central...</p>
+</div>
+</div>
+<!-- Input Area (Blurred) -->
+<div class="mt-auto p-sm bg-surface-container cockpit-border rounded-xl opacity-50 blur-[1px]">
+<div class="flex items-center gap-sm px-sm py-xs">
+<span class="material-symbols-outlined text-outline">attachment</span>
+<input class="bg-transparent border-none focus:ring-0 text-on-surface flex-1 font-body-md" disabled="" placeholder="Escribe tu pregunta técnica..." type="text"/>
+<button class="p-base bg-secondary-container rounded-lg">
+<span class="material-symbols-outlined text-on-secondary-container">send</span>
+</button>
+</div>
+</div>
+</div>
+<!-- RATE LIMIT OVERLAY (THE TASK) -->
+<div class="absolute inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-md p-md" id="rate-limit-overlay">
+<div class="w-full max-w-lg bg-matte-black cockpit-border-active p-lg rounded-xl text-center space-y-lg relative overflow-hidden animate-in fade-in zoom-in duration-300">
+<!-- Decorative Gauge Background -->
+<div class="absolute -top-12 -right-12 w-48 h-48 border border-secondary-container/20 rounded-full"></div>
+<div class="absolute -bottom-12 -left-12 w-48 h-48 border border-secondary-container/20 rounded-full"></div>
+<!-- Header -->
+<div class="space-y-sm relative z-10">
+<div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-secondary-container/10 mb-md">
+<span class="material-symbols-outlined text-[40px] text-secondary-container" style="font-variation-settings: 'FILL' 1;">warning</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Demasiadas preguntas por ahora.</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-xs mx-auto">Por favor, esperá un momento antes de continuar con el diagnóstico.</p>
+</div>
+<!-- Circular Countdown Timer -->
+<div class="relative flex items-center justify-center mx-auto w-40 h-40">
+<svg class="w-full h-full transform -rotate-90">
+<!-- Background Track -->
+<circle class="text-surface-container-highest" cx="80" cy="80" fill="transparent" r="70" stroke="currentColor" stroke-width="8"></circle>
+<!-- Active Progress -->
+<circle class="text-secondary-container transition-all duration-1000 ease-linear" cx="80" cy="80" fill="transparent" id="timer-circle" r="70" stroke="currentColor" stroke-dasharray="440" stroke-dashoffset="440" stroke-linecap="butt" stroke-width="8"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="font-headline-xl text-headline-xl text-secondary" id="timer-text">30</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant">SEGUNDOS</span>
+</div>
+</div>
+<!-- Technical Meta Info (Dashboard Style) -->
+<div class="grid grid-cols-2 gap-md pt-md">
+<div class="bg-surface-container-low p-sm cockpit-border rounded-lg">
+<p class="font-label-caps text-[10px] text-outline text-left uppercase">Estado del Motor</p>
+<p class="font-headline-md text-headline-md text-secondary-container text-left">LIMITADO</p>
+</div>
+<div class="bg-surface-container-low p-sm cockpit-border rounded-lg">
+<p class="font-label-caps text-[10px] text-outline text-left uppercase">Código de Error</p>
+<p class="font-headline-md text-headline-md text-on-surface text-left">429-API</p>
+</div>
+</div>
+<!-- Return Button -->
+<button class="w-full bg-surface-container-highest hover:bg-surface-variant text-on-surface py-md rounded-lg font-label-caps text-label-caps tracking-widest flex items-center justify-center gap-sm transition-all cockpit-border group" id="return-button">
+<span class="material-symbols-outlined group-hover:-translate-x-1 transition-transform">arrow_back</span>
+                        Volver al Chat
+                    </button>
+</div>
+</div>
+</main>
+</div>
+<!-- Micro-interactions & Logic -->
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const timerCircle = document.getElementById('timer-circle');
+            const timerText = document.getElementById('timer-text');
+            const returnButton = document.getElementById('return-button');
+            const overlay = document.getElementById('rate-limit-overlay');
+            
+            let timeLeft = 30;
+            const totalTime = 30;
+            const dashArray = 440; // 2 * Math.PI * r (70)
+
+            const updateTimer = () => {
+                if (timeLeft > 0) {
+                    timeLeft--;
+                    timerText.innerText = timeLeft;
+                    
+                    // Update circle progress
+                    const offset = dashArray - (dashArray * (timeLeft / totalTime));
+                    timerCircle.style.strokeDashoffset = offset;
+                } else {
+                    clearInterval(interval);
+                    // Pulsing effect when done
+                    timerCircle.classList.add('animate-pulse');
+                    timerText.innerText = "0";
+                    returnButton.classList.remove('bg-surface-container-highest');
+                    returnButton.classList.add('bg-secondary-container', 'text-on-secondary-container');
+                    returnButton.innerHTML = `<span class="material-symbols-outlined">check_circle</span> LISTO PARA CONTINUAR`;
+                }
+            };
+
+            const interval = setInterval(updateTimer, 1000);
+
+            // Button click interaction
+            returnButton.addEventListener('click', () => {
+                returnButton.classList.add('scale-95');
+                setTimeout(() => {
+                    returnButton.classList.remove('scale-95');
+                    // In a real app, this would route back or close the overlay
+                    overlay.classList.add('opacity-0', 'transition-opacity', 'duration-500');
+                    setTimeout(() => overlay.remove(), 500);
+                }, 150);
+            });
+        });
+    </script>
+</body></html>

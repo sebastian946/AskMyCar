@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Error 400 - AskMyCar</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-highest": "#333535",
+                    "secondary-fixed-dim": "#ffb5a0",
+                    "on-surface": "#e2e2e2",
+                    "inverse-primary": "#5f5e5e",
+                    "on-tertiary-container": "#848282",
+                    "on-error-container": "#ffdad6",
+                    "tertiary-container": "#1a1a1a",
+                    "tertiary-fixed": "#e5e2e1",
+                    "surface-bright": "#38393a",
+                    "surface-container-low": "#1a1c1c",
+                    "primary-container": "#1a1a1a",
+                    "inverse-on-surface": "#2f3131",
+                    "surface-dim": "#121414",
+                    "primary-fixed": "#e5e2e1",
+                    "inverse-surface": "#e2e2e2",
+                    "surface-container": "#1e2020",
+                    "surface-variant": "#333535",
+                    "surface": "#121414",
+                    "on-secondary-container": "#fffbff",
+                    "on-primary": "#313030",
+                    "secondary-fixed": "#ffdbd1",
+                    "outline": "#8e9192",
+                    "background": "#121414",
+                    "on-error": "#690005",
+                    "secondary": "#ffb5a0",
+                    "tertiary-fixed-dim": "#c9c6c5",
+                    "on-primary-fixed": "#1c1b1b",
+                    "surface-container-high": "#282a2b",
+                    "error": "#ffb4ab",
+                    "on-surface-variant": "#c4c7c7",
+                    "primary": "#c8c6c5",
+                    "secondary-container": "#d73b00",
+                    "on-tertiary": "#313030",
+                    "surface-container-lowest": "#0c0f0f",
+                    "primary-fixed-dim": "#c8c6c5",
+                    "tertiary": "#c9c6c5",
+                    "on-secondary": "#5f1500",
+                    "on-secondary-fixed": "#3b0900",
+                    "on-primary-fixed-variant": "#474746",
+                    "on-background": "#e2e2e2",
+                    "on-primary-container": "#848282",
+                    "on-tertiary-fixed": "#1c1b1b",
+                    "error-container": "#93000a",
+                    "outline-variant": "#444748",
+                    "on-tertiary-fixed-variant": "#474646",
+                    "surface-tint": "#c8c6c5",
+                    "on-secondary-fixed-variant": "#862200"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "sm": "12px",
+                    "xs": "4px",
+                    "md": "24px",
+                    "base": "8px",
+                    "container-max": "1200px",
+                    "xl": "64px",
+                    "gutter": "24px",
+                    "lg": "40px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Montserrat"],
+                    "body-md": ["Inter"],
+                    "headline-xl": ["Montserrat"],
+                    "body-lg": ["Inter"],
+                    "headline-lg": ["Montserrat"],
+                    "label-caps": ["JetBrains Mono"],
+                    "chat-text": ["Inter"],
+                    "headline-lg-mobile": ["Montserrat"]
+            },
+            "fontSize": {
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-xl": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                    "chat-text": ["16px", {"lineHeight": "26px", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #121414;
+            color: #e2e2e2;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .cockpit-outline {
+            border: 1px solid #333333;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .cockpit-outline:hover {
+            border-color: #d73b00;
+            box-shadow: 0px 0px 8px rgba(215, 59, 0, 0.2);
+        }
+
+        .accent-glow {
+            text-shadow: 0px 0px 12px rgba(215, 59, 0, 0.4);
+        }
+
+        .gauge-segment {
+            height: 4px;
+            width: 12px;
+            background: #333333;
+        }
+
+        .gauge-segment.active {
+            background: #d73b00;
+            box-shadow: 0px 0px 4px #d73b00;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+
+        .btn-primary-cockpit {
+            background-color: #d73b00;
+            color: #121414;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .btn-primary-cockpit:active {
+            transform: scale(0.96);
+        }
+
+        /* Instrumental Recessed Effect */
+        .recessed-input {
+            box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+            background-color: #0c0f0f;
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md overflow-x-hidden min-h-screen flex flex-col">
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-md py-sm max-w-container-max mx-auto bg-surface/80 backdrop-blur-md border-b border-outline-variant">
+<div class="flex items-center gap-sm">
+<span class="font-headline-md text-headline-md font-bold text-on-surface">AskMyCar</span>
+</div>
+<div class="flex items-center gap-md">
+<div class="hidden md:flex gap-md">
+<span class="font-label-caps text-label-caps text-on-surface-variant cursor-pointer hover:text-secondary transition-colors">DIAGNOSTICS</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant cursor-pointer hover:text-secondary transition-colors">MANUALS</span>
+</div>
+<button class="font-label-caps text-label-caps px-md py-xs border border-outline-variant rounded-lg hover:border-secondary transition-all">
+                2024 Renault Megane
+            </button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow pt-xl px-md md:px-lg flex items-center justify-center relative overflow-hidden">
+<!-- Background Atmospheric Element -->
+<div class="absolute inset-0 z-0 opacity-10 pointer-events-none">
+
+</div>
+<div class="max-w-4xl w-full z-10 grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- Left Side: Warning Instrumentation -->
+<div class="md:col-span-5 flex flex-col justify-center">
+<div class="cockpit-outline bg-surface-container-lowest p-lg rounded-xl flex flex-col items-center text-center">
+<div class="relative mb-md">
+<span class="material-symbols-outlined text-[80px] text-secondary accent-glow" style="font-variation-settings: 'FILL' 1;">warning</span>
+<div class="absolute -top-2 -right-2">
+<div class="flex gap-1">
+<div class="gauge-segment active"></div>
+<div class="gauge-segment active"></div>
+<div class="gauge-segment"></div>
+</div>
+</div>
+</div>
+<h1 class="font-headline-xl text-headline-xl text-on-surface mb-sm">400</h1>
+<p class="font-label-caps text-label-caps text-secondary mb-lg tracking-[0.2em]">ENGINE STATUS: UNKNOWN</p>
+<div class="w-full bg-surface-container p-md rounded-lg border-l-4 border-secondary text-left mb-md">
+<p class="font-chat-text text-chat-text text-on-surface italic">"Marca no soportada todavía"</p>
+</div>
+<a class="flex items-center gap-xs font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-colors group" href="/">
+<span class="material-symbols-outlined text-sm group-hover:-translate-x-1 transition-transform">arrow_back</span>
+                        VOLVER AL INICIO
+                    </a>
+</div>
+</div>
+<!-- Right Side: Supported Fleet & Waitlist -->
+<div class="md:col-span-7 flex flex-col gap-gutter">
+<!-- Supported Brands List -->
+<div class="cockpit-outline bg-surface-container-low p-md rounded-xl">
+<div class="flex justify-between items-center mb-md">
+<h2 class="font-label-caps text-label-caps text-on-surface-variant">FLOTA SOPORTADA</h2>
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<div class="space-y-sm">
+<!-- Renault Card -->
+<div class="flex items-center justify-between p-md bg-surface-container-highest/50 border border-outline-variant rounded-lg">
+<div class="flex items-center gap-md">
+<div class="w-12 h-12 bg-surface-container flex items-center justify-center rounded border border-outline-variant overflow-hidden">
+<div class="w-full h-full bg-contain bg-center bg-no-repeat p-2" data-alt="Minimalist emblem of the Renault car brand, clean vector style against a dark graphite background, metallic silver finish, high-end automotive design aesthetic for a premium software dashboard." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBlosN_6lTSSxXGw9z_8z78XoQzNLrKEygMzU6uUjUGYz59ndF-X_WeFFKWw5N1Ppy5yPv6L85jXr-Ruoqq3HNC8s30n042Flqcp2gyJIHCuqgX3Sxd2DFhEBHJfbRhiBOHP3Jwvhkt2VILWx3p6_9EFezoCrxBn3yoV1JkfNxCuAhyjpRCIR4swCV8gZYVEbFJ6j9IQrcWPgVajTtCEWOrNiyZ4med63IM0uolAP97zEV8B5GGKwbBSA')"></div>
+</div>
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface">Renault</h3>
+<div class="flex items-center gap-xs">
+<div class="w-2 h-2 rounded-full bg-green-500 shadow-[0_0_8px_#22c55e]"></div>
+<span class="text-[10px] font-label-caps text-on-surface-variant">FULL INDEXED</span>
+</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant">chevron_right</span>
+</div>
+<!-- Placeholder for future support -->
+<div class="p-md border border-dashed border-outline-variant rounded-lg opacity-40 flex items-center gap-md">
+<div class="w-12 h-12 border border-outline-variant rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface-variant">lock</span>
+</div>
+<span class="font-label-caps text-label-caps">PRÓXIMAMENTE...</span>
+</div>
+</div>
+</div>
+<!-- Waitlist Form -->
+<div class="cockpit-outline bg-surface-container-low p-md rounded-xl relative overflow-hidden">
+<div class="absolute top-0 right-0 p-xs">
+<span class="material-symbols-outlined text-secondary-container opacity-20 text-6xl">build_circle</span>
+</div>
+<h2 class="font-label-caps text-label-caps text-on-surface-variant mb-md">SOLICITAR ACCESO</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-md">¿Tu coche no está en la lista? Déjanos tu email y la marca para darte prioridad en la próxima actualización.</p>
+<form class="space-y-sm" onsubmit="event.preventDefault(); alert('¡Registrado en la lista de espera!');">
+<div class="grid grid-cols-2 gap-sm">
+<div class="flex flex-col gap-xs">
+<label class="font-label-caps text-[10px] text-on-surface-variant ml-1">MARCA</label>
+<input class="recessed-input w-full px-sm py-xs border-0 rounded-lg text-on-surface focus:ring-1 focus:ring-secondary font-body-md" placeholder="Ej: BMW, Audi..." type="text"/>
+</div>
+<div class="flex flex-col gap-xs">
+<label class="font-label-caps text-[10px] text-on-surface-variant ml-1">MODELO</label>
+<input class="recessed-input w-full px-sm py-xs border-0 rounded-lg text-on-surface focus:ring-1 focus:ring-secondary font-body-md" placeholder="Ej: M3, A4..." type="text"/>
+</div>
+</div>
+<div class="flex flex-col gap-xs">
+<label class="font-label-caps text-[10px] text-on-surface-variant ml-1">EMAIL</label>
+<input class="recessed-input w-full px-sm py-xs border-0 rounded-lg text-on-surface focus:ring-1 focus:ring-secondary font-body-md" placeholder="usuario@ejemplo.com" type="email"/>
+</div>
+<button class="btn-primary-cockpit w-full py-sm rounded-lg font-label-caps text-label-caps flex items-center justify-center gap-sm mt-md" type="submit">
+<span class="material-symbols-outlined">notifications</span>
+                            NOTIFICARME
+                        </button>
+</form>
+</div>
+</div>
+</div>
+</main>
+<!-- Navigation Footer (Suppressed based on logic but using status bar style) -->
+<footer class="mt-auto px-md py-sm bg-surface-container-lowest border-t border-outline-variant flex justify-between items-center">
+<div class="flex items-center gap-md">
+<div class="flex gap-1">
+<div class="w-1.5 h-1.5 bg-secondary rounded-full animate-pulse"></div>
+<div class="w-1.5 h-1.5 bg-secondary rounded-full opacity-40"></div>
+<div class="w-1.5 h-1.5 bg-secondary rounded-full opacity-20"></div>
+</div>
+<span class="font-label-caps text-[10px] text-on-surface-variant tracking-widest uppercase">System Status: Active</span>
+</div>
+<div class="flex gap-md">
+<span class="font-label-caps text-[10px] text-on-surface-variant">VER 1.0.4-BETA</span>
+<span class="font-label-caps text-[10px] text-on-surface-variant">© 2024 AS KMY CAR</span>
+</div>
+</footer>
+<script>
+        // Micro-interaction for form focus
+        const inputs = document.querySelectorAll('input');
+        inputs.forEach(input => {
+            input.addEventListener('focus', () => {
+                input.parentElement.querySelector('label').classList.replace('text-on-surface-variant', 'text-secondary');
+            });
+            input.addEventListener('blur', () => {
+                input.parentElement.querySelector('label').classList.replace('text-secondary', 'text-on-surface-variant');
+            });
+        });
+    </script>
+</body></html>

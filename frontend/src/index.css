@@ -1,1 +1,138 @@
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap");
 @import "tailwindcss";
+
+@theme {
+  --font-display: "Space Grotesk", "Inter", system-ui, sans-serif;
+  --font-sans: "Inter", system-ui, sans-serif;
+
+  /* Graphite base */
+  --color-base-950: #08090c;
+  --color-base-900: #0e1015;
+  --color-base-850: #14171e;
+  --color-base-800: #1b1f28;
+  --color-base-700: #2a2f3a;
+  --color-base-600: #3d4351;
+  --color-base-400: #7c8496;
+  --color-base-300: #a3aabb;
+  --color-base-100: #e7e9ee;
+  --color-base-50: #f5f6f8;
+
+  /* Dashboard amber accent */
+  --color-accent-600: #d9530a;
+  --color-accent-500: #f2680f;
+  --color-accent-400: #ff8a3d;
+  --color-accent-300: #ffb073;
+
+  /* Telemetry cyan */
+  --color-tel-500: #17b8c4;
+  --color-tel-400: #4fd3dd;
+
+  /* Status */
+  --color-ok-500: #2fb673;
+  --color-ok-400: #58d493;
+  --color-warn-500: #eab308;
+  --color-danger-500: #e5484d;
+  --color-danger-400: #ff6b6f;
+
+  --radius-xl: 1.25rem;
+  --radius-2xl: 1.75rem;
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  background-color: var(--color-base-950);
+  color: var(--color-base-100);
+  font-family: var(--font-sans);
+  background-image:
+    radial-gradient(circle at 15% 0%, rgba(242, 104, 15, 0.10), transparent 40%),
+    radial-gradient(circle at 85% 15%, rgba(23, 184, 196, 0.08), transparent 35%);
+  background-attachment: fixed;
+}
+
+::selection {
+  background-color: var(--color-accent-500);
+  color: var(--color-base-950);
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+/* Speedometer-style ticked ring used behind the hero / loading states */
+.gauge-ring {
+  background:
+    repeating-conic-gradient(
+      from -120deg,
+      var(--color-base-700) 0deg 2deg,
+      transparent 2deg 8deg
+    );
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 14px), black calc(100% - 13px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 14px), black calc(100% - 13px));
+}
+
+@keyframes needle-sweep {
+  0% {
+    transform: rotate(-100deg);
+  }
+  50% {
+    transform: rotate(100deg);
+  }
+  100% {
+    transform: rotate(-100deg);
+  }
+}
+
+@keyframes glow-pulse {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes typing-dot {
+  0%,
+  60%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.5;
+  }
+  30% {
+    transform: translateY(-4px);
+    opacity: 1;
+  }
+}
+
+.animate-needle-sweep {
+  animation: needle-sweep 1.8s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+
+.animate-glow-pulse {
+  animation: glow-pulse 2.2s ease-in-out infinite;
+}
+
+.animate-rise-in {
+  animation: rise-in 0.35s ease-out both;
+}
+
+.animate-typing-dot {
+  animation: typing-dot 1.2s ease-in-out infinite;
+}
