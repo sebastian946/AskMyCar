@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AskMyCar | 404 Ruta Perdida</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-highest": "#333535",
+                    "secondary-fixed-dim": "#ffb5a0",
+                    "on-surface": "#e2e2e2",
+                    "inverse-primary": "#5f5e5e",
+                    "on-tertiary-container": "#848282",
+                    "on-error-container": "#ffdad6",
+                    "tertiary-container": "#1a1a1a",
+                    "tertiary-fixed": "#e5e2e1",
+                    "surface-bright": "#38393a",
+                    "surface-container-low": "#1a1c1c",
+                    "primary-container": "#1a1a1a",
+                    "inverse-on-surface": "#2f3131",
+                    "surface-dim": "#121414",
+                    "primary-fixed": "#e5e2e1",
+                    "inverse-surface": "#e2e2e2",
+                    "surface-container": "#1e2020",
+                    "surface-variant": "#333535",
+                    "surface": "#121414",
+                    "on-secondary-container": "#fffbff",
+                    "on-primary": "#313030",
+                    "secondary-fixed": "#ffdbd1",
+                    "outline": "#8e9192",
+                    "background": "#121414",
+                    "on-error": "#690005",
+                    "secondary": "#ffb5a0",
+                    "tertiary-fixed-dim": "#c9c6c5",
+                    "on-primary-fixed": "#1c1b1b",
+                    "surface-container-high": "#282a2b",
+                    "error": "#ffb4ab",
+                    "on-surface-variant": "#c4c7c7",
+                    "primary": "#c8c6c5",
+                    "secondary-container": "#d73b00",
+                    "on-tertiary": "#313030",
+                    "surface-container-lowest": "#0c0f0f",
+                    "primary-fixed-dim": "#c8c6c5",
+                    "tertiary": "#c9c6c5",
+                    "on-secondary": "#5f1500",
+                    "on-secondary-fixed": "#3b0900",
+                    "on-primary-fixed-variant": "#474746",
+                    "on-background": "#e2e2e2",
+                    "on-primary-container": "#848282",
+                    "on-tertiary-fixed": "#1c1b1b",
+                    "error-container": "#93000a",
+                    "outline-variant": "#444748",
+                    "on-tertiary-fixed-variant": "#474646",
+                    "surface-tint": "#c8c6c5",
+                    "on-secondary-fixed-variant": "#862200"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "sm": "12px",
+                    "xs": "4px",
+                    "md": "24px",
+                    "base": "8px",
+                    "container-max": "1200px",
+                    "xl": "64px",
+                    "gutter": "24px",
+                    "lg": "40px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Montserrat"],
+                    "body-md": ["Inter"],
+                    "headline-xl": ["Montserrat"],
+                    "body-lg": ["Inter"],
+                    "headline-lg": ["Montserrat"],
+                    "label-caps": ["JetBrains Mono"],
+                    "chat-text": ["Inter"],
+                    "headline-lg-mobile": ["Montserrat"]
+            },
+            "fontSize": {
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-xl": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                    "chat-text": ["16px", {"lineHeight": "26px", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #121414;
+            color: #e2e2e2;
+            overflow-x: hidden;
+        }
+        .cockpit-outline {
+            border: 1px solid #333333;
+        }
+        .accent-glow {
+            box-shadow: 0px 0px 12px rgba(215, 59, 0, 0.2);
+        }
+        .gauge-segment {
+            width: 8px;
+            height: 16px;
+            background-color: #333333;
+            margin-right: 2px;
+        }
+        .gauge-segment.active {
+            background-color: #d73b00;
+        }
+        .recessed-input {
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md selection:bg-secondary-container selection:text-on-secondary-container">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-md py-sm bg-surface/80 backdrop-blur-md border-b border-outline-variant">
+<div class="flex items-center gap-base">
+<span class="font-headline-md text-headline-md font-bold text-on-surface">AskMyCar</span>
+</div>
+<div class="hidden md:flex items-center gap-md">
+<span class="font-label-caps text-label-caps text-on-surface-variant">2024 Renault Megane</span>
+<button class="font-label-caps text-label-caps text-secondary px-sm py-xs border border-secondary rounded-lg hover:bg-secondary/10 transition-colors">Change Vehicle</button>
+</div>
+</header>
+<main class="min-h-screen pt-xl flex items-center justify-center relative px-md">
+<!-- Background Grid Pattern -->
+<div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: radial-gradient(#8e9192 1px, transparent 1px); background-size: 32px 32px;"></div>
+<div class="max-w-4xl w-full grid md:grid-cols-2 gap-xl items-center relative z-10">
+<!-- Visual Section: Broken Gauge/Cockpit Element -->
+<div class="order-2 md:order-1 flex flex-col items-center justify-center">
+<div class="relative w-full max-w-[320px] aspect-square flex items-center justify-center cockpit-outline rounded-full bg-surface-container-lowest p-md">
+<!-- Gauge Visualization -->
+<div class="w-full h-full rounded-full border-[8px] border-surface-container-highest flex items-center justify-center relative overflow-hidden">
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[2px] h-32 bg-secondary-container rotate-[145deg] origin-bottom transition-transform duration-1000 ease-in-out" id="needle"></div>
+<div class="text-center">
+<span class="font-label-caps text-label-caps text-error block mb-xs">CRITICAL</span>
+<span class="font-headline-xl text-headline-xl text-error">404</span>
+</div>
+</div>
+<!-- Status Lights mimicking dashboard -->
+<div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-xs">
+<div class="w-2 h-2 rounded-full bg-error animate-pulse"></div>
+<div class="w-2 h-2 rounded-full bg-surface-container-highest"></div>
+<div class="w-2 h-2 rounded-full bg-surface-container-highest"></div>
+</div>
+</div>
+<!-- Technical Detail Sub-card -->
+<div class="mt-lg w-full cockpit-outline bg-surface-container p-md rounded-xl max-w-[320px]">
+<div class="flex justify-between items-center mb-sm">
+<span class="font-label-caps text-label-caps text-on-surface-variant">DIAGNOSTIC_LOG</span>
+<span class="material-symbols-outlined text-secondary text-sm">warning</span>
+</div>
+<div class="space-y-xs">
+<div class="flex justify-between text-xs font-label-caps">
+<span class="text-on-surface-variant">SYSTEM_STATUS:</span>
+<span class="text-error">OFF_ROAD</span>
+</div>
+<div class="flex justify-between text-xs font-label-caps">
+<span class="text-on-surface-variant">COORDINATES:</span>
+<span class="text-on-surface">MISSING_UID</span>
+</div>
+<!-- Segmented Progress Bar -->
+<div class="flex mt-sm">
+<div class="gauge-segment active"></div>
+<div class="gauge-segment active"></div>
+<div class="gauge-segment"></div>
+<div class="gauge-segment"></div>
+<div class="gauge-segment"></div>
+<div class="gauge-segment"></div>
+<div class="gauge-segment"></div>
+<div class="gauge-segment"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Content Section -->
+<div class="order-1 md:order-2 space-y-md text-center md:text-left">
+<div class="inline-block px-sm py-xs bg-secondary-container/10 border border-secondary-container rounded-lg mb-base">
+<span class="font-label-caps text-label-caps text-secondary-container uppercase tracking-widest">Error de Sistema</span>
+</div>
+<h1 class="font-headline-xl text-headline-xl md:text-headline-xl text-on-surface leading-tight">
+                    404 - <span class="text-secondary-container">Ruta perdida</span>
+</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-md mx-auto md:mx-0">
+                    No pudimos encontrar la página que buscás. Es posible que el enlace esté roto o que la ruta haya sido reconfigurada.
+                </p>
+<div class="pt-md flex flex-col sm:flex-row gap-md justify-center md:justify-start">
+<a class="px-xl py-md bg-secondary-container text-on-secondary-container font-label-caps text-label-caps rounded-lg hover:brightness-110 active:scale-95 transition-all text-center flex items-center justify-center gap-sm accent-glow" href="/">
+<span class="material-symbols-outlined">dashboard</span>
+                        VOLVER AL DASHBOARD
+                    </a>
+<button class="px-xl py-md border border-outline-variant text-on-surface font-label-caps text-label-caps rounded-lg hover:bg-surface-container-highest active:scale-95 transition-all flex items-center justify-center gap-sm" onclick="history.back()">
+<span class="material-symbols-outlined">arrow_back</span>
+                        PÁGINA ANTERIOR
+                    </button>
+</div>
+<div class="pt-lg border-t border-outline-variant mt-xl">
+<p class="text-xs font-label-caps text-on-surface-variant">
+                        SOPORTE TÉCNICO: <span class="text-on-surface">ERR_CODE_ROUTE_MISMATCH_INSTRUMENTATION</span>
+</p>
+</div>
+</div>
+</div>
+</main>
+<!-- Side Decoration (The Empty Road Feel) -->
+<div class="fixed right-0 top-0 h-full w-1/4 opacity-20 pointer-events-none hidden lg:block overflow-hidden">
+<div class="w-full h-full bg-cover bg-center" data-alt="A cinematic long-exposure photograph of an empty asphalt road at night, stretching into a dark void. The scene is illuminated by faint orange ambient lighting mimicking car taillights. The aesthetic is high-contrast, moody, and automotive, with a focus on deep blacks and vibrant orange streaks. Dramatic shadows and a sense of desolate technical precision." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCvMUECoH_WfpJmqozMeBwbuNSQ7omcqxuWJc1jf4buQqs8PfX923AREu-xrXFDmP5Tj_-bj5tr7Tdm5i49YEgcNPAhBcVgJLhZVvaib5c8lxY1pJWH0FWU68ewhFVhl4-KpEr3cXCApjmRNfPONbzYVoPiQ_7i0EAQ4knleQrb144cVnupu7goQtwemx7BJ9fQ9zgI2XX9cpDhOrkoDIExxU1otSFfIg1l10A0a6GOFZoRJ9VpK7lWKg')"></div>
+<div class="absolute inset-0 bg-gradient-to-r from-background to-transparent"></div>
+</div>
+<!-- Micro-interaction script -->
+<script>
+        document.addEventListener('mousemove', (e) => {
+            const needle = document.getElementById('needle');
+            if (needle) {
+                const xAxis = (window.innerWidth / 2 - e.pageX) / 45;
+                const yAxis = (window.innerHeight / 2 - e.pageY) / 45;
+                needle.style.transform = `translateX(-50%) translateY(-100%) rotate(${145 + xAxis}deg)`;
+            }
+        });
+    </script>
+</body></html>
