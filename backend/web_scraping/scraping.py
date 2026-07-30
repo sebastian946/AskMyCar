@@ -33,8 +33,8 @@ class Web_Scraping:
         return browser, page
 
     def get_manual_renault(self, page):
-        pattern = re.compile(rf"{re.escape(self.model)}\s+{re.escape(self.year)}", re.IGNORECASE)
-        card = page.get_by_text(pattern)
+        pattern = re.compile(rf"{re.escape(self.model)}\s+\d{{1,2}}/{re.escape(self.year)}", re.IGNORECASE)
+        card = page.get_by_text(pattern).first
         link = card.locator(":scope > a")
         return link
 
@@ -53,7 +53,7 @@ class Web_Scraping:
         key = upload_file(
             brand=self.brand,
             model=model,
-            year=year.replace("/", "-"),
+            year=year,
             name=name,
             file_path=path,
             content_type="application/pdf",

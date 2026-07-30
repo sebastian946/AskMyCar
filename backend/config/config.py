@@ -34,7 +34,8 @@ def get_llm(temperature: float = 0):
     load_dotenv()
     if os.environ.get("ANTHROPIC_API_KEY"):
         model = os.environ.get("ANTHROPIC_MODEL", "claude-sonnet-5")
-        return ChatAnthropic(model=model, temperature=temperature)
+        # No se pasa `temperature`: los modelos Claude 5 lo rechazan (400 Bad Request).
+        return ChatAnthropic(model=model)
 
     model = os.environ.get("OLLAMA_MODEL", "llama3.2")
     return ChatOllama(model=model, temperature=temperature)
