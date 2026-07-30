@@ -5,7 +5,7 @@ from pydantic import BaseModel, Field
 class Car(BaseModel):
     brand: str = Field(min_length=1, max_length=100)
     model: str = Field(min_length=1, max_length=100)
-    year: str = Field(pattern=r"^\d{4}$", description="Solo el anio, ej. \"2019\" (sin mes)")
+    year: str = Field(pattern=r"^\d{4}$", description="Year only, e.g. \"2019\" (no month)")
 
 class ChatRequest(BaseModel):
     car: Car
