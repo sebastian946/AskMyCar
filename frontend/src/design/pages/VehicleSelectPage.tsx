@@ -9,8 +9,8 @@ import { Card } from "../components/Card";
 import { ManualLoadingCard } from "../components/ManualLoadingCard";
 import { ErrorState } from "../components/ErrorState";
 import { useVehicle } from "../context/useVehicle";
-import { checkOrScrapeManual } from "../mock/fakeApi";
 import type { ManualLoadPhase } from "../types";
+import { getManual } from "../../api/services/car_services";
 
 const YEAR_PATTERN = /^\d{4}$/;
 
@@ -45,7 +45,7 @@ export function VehicleSelectPage() {
     scrapingTimer.current = setTimeout(() => setPhase("scraping"), 1100);
 
     try {
-      const result = await checkOrScrapeManual(car);
+      const result = await getManual(car);
       if (scrapingTimer.current) clearTimeout(scrapingTimer.current);
       setPhase("ready");
       setCar(result.car);
@@ -90,7 +90,11 @@ export function VehicleSelectPage() {
       <Card className="flex flex-col gap-6 p-6 animate-rise-in">
         <div className="flex flex-col gap-2.5">
           <span className="text-sm font-medium text-base-300">Marca</span>
-          <BrandPicker value={brand} onSelect={(b) => setBrand(b.id)} onSelectUnavailable={handleUnavailableBrand} />
+          <BrandPicker
+            value={brand}
+            onSelect={(b) => setBrand(b.id)}
+            onSelectUnavailable={handleUnavailableBrand}
+          />
         </div>
 
         <Input
