@@ -15,9 +15,10 @@ export interface Manual_response {
 }
 
 export interface Chat_Response {
+  car: Car_Model;
   question: string;
   answer: string;
-  source: string[];
+  sources: string[];
 }
 
 // POST Manual Car
@@ -28,9 +29,10 @@ export function getManual(data: Car_Model) {
 }
 
 // Chat with the bot
-export async function chatBot(data: Car_Model) {
+export async function chatBot(car: Car_Model, question: string) {
   const response = await apiClient<Chat_Response>("/askmycar/chat_ai", {
-    body: data,
+    body: { car, question },
   });
   history.set(response.question, response.answer);
+  return response;
 }

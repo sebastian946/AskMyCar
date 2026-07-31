@@ -7,8 +7,9 @@ import { TypingIndicator } from "../components/TypingIndicator";
 import { RateLimitBanner } from "../components/RateLimitBanner";
 import { ErrorState } from "../components/ErrorState";
 import { Button } from "../components/Button";
-import { askQuestion, FakeApiError } from "../mock/fakeApi";
 import type { ChatMessage } from "../types";
+import { chatBot } from "../../api/services/car_services";
+import { ApiError } from "../../api/client";
 
 const SUGGESTIONS = [
   "Cada cuanto se cambia el aceite?",
@@ -40,19 +41,27 @@ export function ChatPage() {
     const trimmed = question.trim();
     if (!trimmed || sendState === "sending" || !car) return;
 
-    setMessages((prev) => [...prev, { id: crypto.randomUUID(), role: "user", text: trimmed }]);
+    setMessages((prev) => [
+      ...prev,
+      { id: crypto.randomUUID(), role: "user", text: trimmed },
+    ]);
     setInput("");
     setSendState("sending");
 
     try {
-      const result = await askQuestion(car, trimmed);
+      const result = await chatBot(car, trimmed);
       setMessages((prev) => [
         ...prev,
-        { id: crypto.randomUUID(), role: "assistant", text: result.answer, sources: result.sources },
+        {
+          id: crypto.randomUUID(),
+          role: "assistant",
+          text: result.answer,
+          sources: result.sources,
+        },
       ]);
       setSendState("idle");
     } catch (err) {
-      setSendState(err instanceof FakeApiError && err.kind === "rate-limited" ? "rate-limited" : "error");
+      setSendState(err instanceof ApiError && err.status === 429 ? "rate-limited" : "error");
     }
   }
 
@@ -69,7 +78,8 @@ export function ChatPage() {
                 Preguntame lo que quieras sobre tu {car.model}
               </h2>
               <p className="text-sm text-base-400">
-                Respondo en base al manual oficial de tu {car.brand} {car.model} {car.year}.
+                Respondo en base al manual oficial de tu {car.brand} {car.model}{" "}
+                {car.year}.
               </p>
             </div>
             <div className="flex flex-wrap justify-center gap-2 pt-2">
