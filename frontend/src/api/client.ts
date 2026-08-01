@@ -1,6 +1,14 @@
 const BASE_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
 const API_KEY = import.meta.env.VITE_API_KEY;
 
+export class ApiError extends Error {
+  status: number;
+  constructor(message: string, status: number) {
+    super(message);
+    this.status = status;
+  }
+}
+
 interface RequestOptions extends RequestInit {
   body?: any;
 }
@@ -29,7 +37,9 @@ export async function apiClient<T>(
 
   if (!response.ok) {
     const errorData = await response.json().catch(() => ({}));
-    throw new Error(errorData.detail || `Error ${response.status}`);
+    // FastAPI's HTTPException uses "detail"; slowapi's rate-limit handler uses "error".
+    const message = errorData.detail || errorData.error || `Error ${response.status}`;
+    throw new ApiError(message, response.status);
   }
 
   if (response.status === 204) return undefined as T;

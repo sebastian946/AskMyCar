@@ -2,7 +2,7 @@
 
 AskMyCar scrapes vehicle owner's manuals from manufacturer sites, stores them in S3, and answers questions about a manual through a RAG (Retrieval-Augmented Generation) pipeline, exposed over an HTTP API.
 
-**Project status:** `backend/` is implemented. `frontend/` is empty — not started yet.
+**Project status:** `backend/` is implemented. `frontend/` has a full UI/design layer built (`src/design/`); the real API integration (`src/api/`) is being wired up incrementally.
 
 ## How it works
 
@@ -31,9 +31,13 @@ The `.env` file lives at the **repo root** (`AskMyCar/.env`), not inside `backen
 | `LANGSMITH_API_KEY` | No | Required if `LANGSMITH_TRACING=true` |
 | `LANGSMITH_ENDPOINT` | No | LangSmith API endpoint |
 | `LANGSMITH_PROJECT` | No | LangSmith project name traces are grouped under |
-| `ALLOWED_ORIGINS` | No | Read into settings but not wired to any CORS middleware yet |
+| `ALLOWED_ORIGINS` | No | Comma-separated list of origins allowed by CORS (default covers the Vite dev server) |
+| `VITE_API_URL` | No | Frontend-only: backend base URL (default `http://127.0.0.1:8000`) |
+| `VITE_API_KEY` | No | Frontend-only: value sent as `X-API-KEY` — should match `API_KEY` |
 
 Embeddings also need a local **Ollama** server running with the `mxbai-embed-large` model pulled, independent of which chat LLM you use.
+
+Frontend vars need the `VITE_` prefix per Vite's convention. They're read from this same root `.env` — `frontend/vite.config.ts` sets `envDir: "../"` so Vite doesn't default to looking inside `frontend/`.
 
 ## Running it
 
@@ -53,6 +57,20 @@ Manual test scripts (no automated test suite exists yet):
 uv run python -m web_scraping.run_manual_test [--download] [--upload]   # scraper against the real site
 uv run python -m rag.run_qa_test --model Sandero --year 2019 --question "..."  # full RAG pipeline
 ```
+
+From `frontend/`, using `npm`:
+
+```bash
+npm install
+npm run dev       # Vite dev server with reload, default http://localhost:5173
+```
+
+## Frontend
+
+React 19 + TypeScript + Vite + Tailwind v4 (CSS-first config, no `tailwind.config.js` — see the `@theme` block in `src/index.css`).
+
+- `src/design/` — the UI/design layer: 5 pages (landing, vehicle select, chat, unsupported-brand, 404) routed with `react-router-dom`, shared `VehicleContext` for the selected car, reusable components (chat bubbles, the tachometer-style loading spinner, etc.). Fully navigable on its own via `src/design/mock/fakeApi.ts`, a fake async layer with the same response shapes as the real API — useful for previewing UI/loading states without a backend running.
+- `src/api/` — the real integration: `client.ts` exports `apiClient<T>()` (generic fetch wrapper reading `VITE_API_URL`/`VITE_API_KEY`, throwing `ApiError` with the real HTTP status on failure) and `services/car_services.ts` exports `getManual(car)` / `chatBot(car, question)` calling the two endpoints below.
 
 ## API
 
@@ -92,6 +110,6 @@ curl -X POST http://127.0.0.1:8000/askmycar/chat_ai \
 ## Notes / known limitations
 
 - Only `brand == "renault"` is implemented in the scraper; other brands raise a clear error.
-- No automated test suite, linter, or formatter configured — the `run_manual_test.py` / `run_qa_test.py` scripts are manual/integration checks run against the real site, S3, and LLM backends.
-- `frontend/` hasn't been started.
-- `ALLOWED_ORIGINS` / `max_page_size` are declared in the API settings but not yet used by any middleware.
+- No automated test suite, linter, or formatter configured on the backend — the `run_manual_test.py` / `run_qa_test.py` scripts are manual/integration checks run against the real site, S3, and LLM backends.
+- `max_page_size` is declared in the API settings but not yet used anywhere.
+- `src/design/mock/fakeApi.ts` (fake async layer with the same shapes as the real API) is no longer wired into any page — both `/vehiculo` and `/chat` call the real backend — but it's kept around as a way to preview the UI/loading states without a backend running.
