@@ -27,6 +27,7 @@ The `.env` file lives at the **repo root** (`AskMyCar/.env`), not inside `backen
 | `ANTHROPIC_API_KEY` | No | When set, chat responses use Claude instead of Ollama |
 | `ANTHROPIC_MODEL` | No | Defaults to `claude-sonnet-5` |
 | `OLLAMA_MODEL` | No | Defaults to `llama3.2`; used only when `ANTHROPIC_API_KEY` is absent |
+| `VOYAGE_API_KEY` | No | When set, embeddings use Voyage AI (`voyage-4-lite`) instead of local Ollama — needed for deployments where Ollama isn't reachable |
 | `LANGSMITH_TRACING` | No | `true` to enable LangSmith tracing for every LLM call (either backend) |
 | `LANGSMITH_API_KEY` | No | Required if `LANGSMITH_TRACING=true` |
 | `LANGSMITH_ENDPOINT` | No | LangSmith API endpoint |
@@ -35,7 +36,7 @@ The `.env` file lives at the **repo root** (`AskMyCar/.env`), not inside `backen
 | `VITE_API_URL` | No | Frontend-only: backend base URL (default `http://127.0.0.1:8000`) |
 | `VITE_API_KEY` | No | Frontend-only: value sent as `X-API-KEY` — should match `API_KEY` |
 
-Embeddings also need a local **Ollama** server running with the `mxbai-embed-large` model pulled, independent of which chat LLM you use.
+Embeddings use Voyage AI if `VOYAGE_API_KEY` is set; otherwise they fall back to a local **Ollama** server with the `mxbai-embed-large` model pulled, independent of which chat LLM you use.
 
 Frontend vars need the `VITE_` prefix per Vite's convention. They're read from this same root `.env` — `frontend/vite.config.ts` sets `envDir: "../"` so Vite doesn't default to looking inside `frontend/`.
 

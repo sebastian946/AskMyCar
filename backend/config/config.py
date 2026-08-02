@@ -2,7 +2,8 @@ import os
 from dotenv import load_dotenv
 import boto3
 from langchain_anthropic import ChatAnthropic
-from langchain_ollama import ChatOllama
+from langchain_ollama import ChatOllama, OllamaEmbeddings
+from langchain_voyageai import VoyageAIEmbeddings
 
 class Config:
     def __init__(self) -> None:
@@ -39,3 +40,16 @@ def get_llm(temperature: float = 0):
 
     model = os.environ.get("OLLAMA_MODEL", "llama3.2")
     return ChatOllama(model=model, temperature=temperature)
+
+
+def get_embeddings():
+    """Returns VoyageAIEmbeddings if VOYAGE_API_KEY is set; otherwise falls back to local Ollama.
+
+    Needed because Ollama requires a locally-reachable server, which most free
+    hosting doesn't provide -- set VOYAGE_API_KEY in production deployments.
+    """
+    load_dotenv()
+    if os.environ.get("VOYAGE_API_KEY"):
+        return VoyageAIEmbeddings(model="voyage-4-lite")
+
+    return OllamaEmbeddings(model="mxbai-embed-large:latest")

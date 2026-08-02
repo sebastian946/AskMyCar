@@ -1,9 +1,9 @@
 from config.bucket_actions import get_file_url
+from config.config import get_embeddings
 from web_scraping.scraping import Web_Scraping
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_chroma import Chroma
-from langchain_ollama import OllamaEmbeddings
 
 class LoadManual:
     def __init__(self,brand,model,year) -> None:
@@ -43,7 +43,7 @@ class LoadManual:
 
     def retriever(self):
         splits = self.split_text()
-        embedding = OllamaEmbeddings(model="mxbai-embed-large:latest")
+        embedding = get_embeddings()
         vector_store = Chroma.from_documents(documents=splits, embedding=embedding)
         retriever = vector_store.as_retriever(search_kwargs={"k":3})
         return retriever
