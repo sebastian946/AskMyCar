@@ -41,7 +41,11 @@ class Web_Scraping:
 
     def download_manual(self, page, link):
         with page.expect_download() as download_info:
-            link.click()
+            # force=True: skip Playwright's "is anything covering this element"
+            # check. Renault's cookie-consent overlay can sit on top of the
+            # link depending on the visitor's inferred region, and we've
+            # already confirmed the resolved link is the right one.
+            link.click(force=True)
         download = download_info.value
         os.makedirs("download", exist_ok=True)
         path = f"download/{download.suggested_filename}"
