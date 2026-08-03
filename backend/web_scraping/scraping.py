@@ -1,3 +1,4 @@
+import logging
 import os
 import re
 
@@ -5,6 +6,8 @@ from playwright.sync_api import sync_playwright
 from playwright.sync_api import TimeoutError as PlaywrightTimeoutError
 from config.config import Config
 from config.bucket_actions import upload_file
+
+logger = logging.getLogger(__name__)
 
 class Web_Scraping:
     def __init__(self, brand:str, year:str, model:str) -> None:
@@ -23,10 +26,10 @@ class Web_Scraping:
 
         browser = self.p.chromium.launch(headless=True)
         page = browser.new_page()
-        page.goto(url)
+        page.goto(url, timeout=60000)
 
         try:
-            page.locator("#onetrust-accept-btn-handler").click(timeout=5000)
+            page.locator("#onetrust-accept-btn-handler").click(timeout=10000)
         except PlaywrightTimeoutError:
             pass
 
@@ -51,8 +54,11 @@ class Web_Scraping:
 
 
     def download_manual(self, page, link):
-        with page.expect_download() as download_info:
-            link.click()
+        # Generous timeouts: free-tier hosting (shared/throttled CPU) plus real
+        # network latency to Renault's CDN can comfortably exceed Playwright's
+        # 30s default, especially on a cold instance.
+        with page.expect_download(timeout=60000) as download_info:
+            link.click(timeout=60000)
         download = download_info.value
         os.makedirs("download", exist_ok=True)
         path = f"download/{download.suggested_filename}"
@@ -73,6 +79,7 @@ class Web_Scraping:
         return key
 
     def scrape_and_upload(self) -> str:
+        logger.info(f"Scraping started: {self.brand}/{self.model}/{self.year}")
         browser, page = self.init_page()
         try:
             link = self.get_manual_renault(page)
@@ -81,6 +88,7 @@ class Web_Scraping:
         finally:
             browser.close()
             self.close()
+        logger.info(f"Scraping finished, uploaded to s3://{key}")
         return key
 
     def close(self):

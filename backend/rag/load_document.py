@@ -1,9 +1,13 @@
+import logging
+
 from config.bucket_actions import get_file_url
 from config.config import get_embeddings
 from web_scraping.scraping import Web_Scraping
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_chroma import Chroma
+
+logger = logging.getLogger(__name__)
 
 class LoadManual:
     def __init__(self,brand,model,year) -> None:
@@ -15,7 +19,7 @@ class LoadManual:
         try:
             return get_file_url(self.brand, self.model, self.year)
         except FileNotFoundError:
-            print(f"Manual not found in S3, scraping: {self.brand}/{self.model}/{self.year} ...")
+            logger.info(f"Manual not found in S3, scraping: {self.brand}/{self.model}/{self.year} ...")
             scraper = Web_Scraping(brand=self.brand, year=self.year, model=self.model)
             scraper.scrape_and_upload()
             return get_file_url(self.brand, self.model, self.year)
