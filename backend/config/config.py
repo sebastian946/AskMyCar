@@ -1,9 +1,12 @@
+import logging
 import os
 from dotenv import load_dotenv
 import boto3
 from langchain_anthropic import ChatAnthropic
 from langchain_ollama import ChatOllama, OllamaEmbeddings
 from langchain_voyageai import VoyageAIEmbeddings
+
+logger = logging.getLogger(__name__)
 
 class Config:
     def __init__(self) -> None:
@@ -35,10 +38,12 @@ def get_llm(temperature: float = 0):
     load_dotenv()
     if os.environ.get("ANTHROPIC_API_KEY"):
         model = os.environ.get("ANTHROPIC_MODEL", "claude-sonnet-5")
+        logger.info(f"Using Anthropic LLM: {model}")
         # `temperature` is not passed: Claude 5 models reject it (400 Bad Request).
         return ChatAnthropic(model=model)
 
     model = os.environ.get("OLLAMA_MODEL", "llama3.2")
+    logger.info(f"Using Ollama LLM: {model}")
     return ChatOllama(model=model, temperature=temperature)
 
 
@@ -50,6 +55,8 @@ def get_embeddings():
     """
     load_dotenv()
     if os.environ.get("VOYAGE_API_KEY"):
+        logger.info("Using Voyage AI embeddings: voyage-4-lite")
         return VoyageAIEmbeddings(model="voyage-4-lite")
 
+    logger.info("Using Ollama embeddings: mxbai-embed-large")
     return OllamaEmbeddings(model="mxbai-embed-large:latest")
