@@ -8,9 +8,10 @@ AskMyCar scrapes vehicle owner's manuals from manufacturer sites, stores them in
 
 1. **Scraping** (`backend/web_scraping/`) — a Playwright-driven scraper (`Web_Scraping`) opens the manufacturer's manual page, finds the link matching a given model + year (currently only `brand == "renault"` is supported), downloads the PDF, and uploads it to S3.
 2. **Storage** (`backend/config/bucket_actions.py`) — manuals are stored in S3 under the key `{brand}/{model}/{year}/{name}.pdf`. Looking a manual up (`get_file_url`) lists the objects under `{brand}/{model}/{year}/` and returns a presigned URL for the one found — there's no need to know the exact original filename.
-3. **RAG pipeline** (`backend/rag/`) — `LoadManual` resolves the manual's presigned URL, loads the PDF (`PyPDFLoader`, which handles S3/web URLs natively), splits it into chunks (`RecursiveCharacterTextSplitter`), and embeds them locally with Ollama into a Chroma vector store. If the manual isn't in S3 yet, `LoadManual` triggers the scraper automatically and retries. `ManualQAChain` wraps the resulting retriever into a prompt → LLM → parser chain and returns both the answer and the manual excerpts (`sources`) used to produce it.
-4. **LLM selection** (`backend/config/config.py::get_llm`) — a single place decides which chat model to use: **Anthropic (Claude) if `ANTHROPIC_API_KEY` is set, otherwise a local Ollama model.** Embeddings are always local Ollama regardless of which chat LLM is active (there's no Anthropic embedding option). Both backends are traced end-to-end in **LangSmith** automatically, with no provider-specific code — tracing works at the LangChain callback level, so it's identical for Claude and Ollama.
-5. **API** (`backend/apis/`) — a FastAPI router (mounted in `main.py`) exposes the above over HTTP, protected by an API key header and per-route rate limiting.
+3. **RAG pipeline** (`backend/rag/`) — `LoadManual` resolves the manual's presigned URL, loads the PDF (`PyPDFLoader`, which handles S3/web URLs natively), splits it into chunks (`RecursiveCharacterTextSplitter`), and embeds them (via `config.get_embeddings()`) into an in-memory Chroma vector store. If the manual isn't in S3 yet, `LoadManual` triggers the scraper automatically and retries. `ManualQAChain` wraps the resulting retriever into a prompt → LLM → parser chain and returns both the answer and the manual excerpts (`sources`) used to produce it.
+4. **Model selection** (`backend/config/config.py`) — two independent, identically-shaped decisions: `get_llm()` uses **Anthropic (Claude)** if `ANTHROPIC_API_KEY` is set, otherwise local **Ollama**; `get_embeddings()` uses **Voyage AI** if `VOYAGE_API_KEY` is set, otherwise local Ollama. Neither depends on the other — you can mix, e.g. Claude for chat with local Ollama embeddings.
+5. **Observability** — every chat request (retrieval + prompt + LLM call) is traced in **LangSmith** if `LANGSMITH_TRACING=true`, for both Anthropic and Ollama with no provider-specific code. See [Observability (LangSmith)](#observability-langsmith) below for exactly what is and isn't covered.
+6. **API** (`backend/apis/`) — a FastAPI router (mounted in `main.py`) exposes the above over HTTP, protected by an API key header and per-route rate limiting.
 
 ## Environment variables
 
@@ -39,6 +40,28 @@ The `.env` file lives at the **repo root** (`AskMyCar/.env`), not inside `backen
 Embeddings use Voyage AI if `VOYAGE_API_KEY` is set; otherwise they fall back to a local **Ollama** server with the `mxbai-embed-large` model pulled, independent of which chat LLM you use.
 
 Frontend vars need the `VITE_` prefix per Vite's convention. They're read from this same root `.env` — `frontend/vite.config.ts` sets `envDir: "../"` so Vite doesn't default to looking inside `frontend/`.
+
+## Observability (LangSmith)
+
+[LangSmith](https://smith.langchain.com) gives you a trace of each chat request — the retrieved manual excerpts, the exact prompt sent to the LLM, and its answer — without any code changes per provider, since it hooks into LangChain's callback system rather than a specific integration.
+
+**Setup:**
+1. Create a free account at [smith.langchain.com](https://smith.langchain.com) and grab an API key.
+2. Add to `.env`:
+   ```
+   LANGSMITH_TRACING=true
+   LANGSMITH_API_KEY=<your key>
+   LANGSMITH_ENDPOINT=https://api.smith.langchain.com
+   LANGSMITH_PROJECT=AskMyCar
+   ```
+3. Restart the backend. No other configuration needed — tracing is picked up automatically by every LangChain call once these env vars are present.
+4. Traces show up at smith.langchain.com under the project named in `LANGSMITH_PROJECT`.
+
+**What actually gets traced:** the full chain inside `ManualQAChain.ask()` — `VectorStoreRetriever` → `ChatPromptTemplate` → the LLM (`ChatAnthropic` or `ChatOllama`) → `StrOutputParser` — for every `/askmycar/chat_ai` call. This is genuinely provider-agnostic; switching `ANTHROPIC_API_KEY` on or off just changes which node shows up in the trace.
+
+**What does *not* get traced:** the embedding step that builds the manual's vector store (`LoadManual.retriever()`, called once per `/askmycar/chat_ai` or `/askmycar/get_manual` request before the QA chain even exists). Voyage AI and Ollama embedding calls happen outside any active LangSmith run context, so they won't appear as their own trace entries — verified by checking a live project's run list, not assumed.
+
+Tracing is optional and off by default (`LANGSMITH_TRACING` unset). It's safe to enable in production too — useful for debugging exactly the kind of "works locally, fails deployed" issues this project has hit (e.g. seeing the real prompt/retrieval that ran when a deployed request behaves unexpectedly).
 
 ## Running it
 
