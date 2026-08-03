@@ -30,6 +30,17 @@ class Web_Scraping:
         except PlaywrightTimeoutError:
             pass
 
+        # Depending on the visitor's inferred region, OneTrust can show its
+        # full Preference Center (a modal with its own dark backdrop) instead
+        # of, or in addition to, the simple banner above. Remove any leftover
+        # consent UI outright so it can't intercept later clicks -- clicking
+        # its own buttons is unreliable since the exact IDs vary by variant.
+        page.evaluate(
+            "document.querySelectorAll("
+            "'#onetrust-consent-sdk, .onetrust-pc-dark-filter, #onetrust-pc-sdk'"
+            ").forEach(el => el.remove())"
+        )
+
         return browser, page
 
     def get_manual_renault(self, page):
@@ -41,11 +52,7 @@ class Web_Scraping:
 
     def download_manual(self, page, link):
         with page.expect_download() as download_info:
-            # force=True: skip Playwright's "is anything covering this element"
-            # check. Renault's cookie-consent overlay can sit on top of the
-            # link depending on the visitor's inferred region, and we've
-            # already confirmed the resolved link is the right one.
-            link.click(force=True)
+            link.click()
         download = download_info.value
         os.makedirs("download", exist_ok=True)
         path = f"download/{download.suggested_filename}"
